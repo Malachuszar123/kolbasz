@@ -40,6 +40,37 @@ switch ($keresek[0]) {
 }
 ?>
 
+///////////////////////////////
+ezt csak ide rakom a HARMADIK feladathoz: HA valami hasonó feladatot kér:
+
+Készíts http://localhost/index.php?levesek végpontot az összes leves adatainak a lekérdezésére! ... összes adat: SELECT * FROM pizza;
+
+pld az összes leves lekérdezése: csak ai példa... 
+<?php 
+// Adatbázis kapcsolat beállítása
+$conn = mysqli_connect("localhost", "felhasznalonev", "jelszo", "test");
+
+// SQL lekérdezés
+$sql = "SELECT * FROM levesek";
+$result = mysqli_query($conn, $sql);
+
+// Eredmények ellenőrzése és JSON formátumban válaszadás
+if (mysqli_num_rows($result) > 0) {
+    $levesek = array();
+    while($row = mysqli_fetch_assoc($result)) {
+        $levesek[] = $row;
+    }
+    echo json_encode($levesek);
+}
+?>
+/////////////////////////////
+
+/////////////////////////////
+xampp > explorer > htdocs > új mappa készítése
+win kereső > 🔍htdocs > új mappa készítése
+api: mappa; de pld itt nem is kell mappa: http://localhost/index.php?levesek
+///////////////////////////////
+
 pizza.php : HARMADIK
 
 <?php
