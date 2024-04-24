@@ -1,3 +1,20 @@
+----------
+teljes pálda:
+Importád be a "dolgozok.sql" script-et
+Készíts http://localhost/index.php?dolgozok végpontot a levesek adatainak a lekérdezésére.
+Készíts weblapot, amely a végpont felhasználásával táblázat szerűen megjeleníti az adatokat. 
+
+*** (amikor ilyen konzolos feladat van oda írva)
+Készíts konzolos alkalmazást, amely 
+kiírja a dolgozók számát, 
+a legmagasabb keresetű dolgozó nevét 
+hányan dolgoznak az egyes részlegeken
+kilistázza az "asztalosműhely"-ben dolgozók nevét
+***
+
+Készíts grafikus felületű alkalmazást új dolgozó felvitelére
+----------
+
 using MySql.Data.MySqlClient; //ezt írd be miután hozzá adtad a NUGETET
 
 namespace cscsyc
@@ -17,17 +34,17 @@ namespace cscsyc
 
                 (string kerdesek, string valaszok)[] queries =
                 {
-                    ("1. Hányszor rendelt Kuka 2023-ban?",
+                    ("1. feladat krédése...",
                     "SELECT COUNT(rendeles.idopont) AS Kuka_2023_rendeles_szamai FROM rendeles INNER JOIN vevo ON rendeles.vazon = vevo.vazon WHERE vevo.vnev = 'Kuka' AND rendeles.idopont BETWEEN '2023.01.01' AND '2023.12.31';"),
 
-                    ("2. Hány rendelés volt 2023. október 4-én",
-                    "SELECT COUNT(*) AS rendelesek_szama_oktober4 FROM rendeles WHERE DATE(idopont) = '2023-10-04';"),
+                    ("kérdés",
+                    "sql"),
 
-                    ("3. Melyik futár teljesítette a legtöbb rendelést",
-                    "SELECT\r\n  futar.fnev,\r\n  COUNT(rendeles.fazon) AS legtobb_rendelest_telito_futar\r\nFROM rendeles\r\n  INNER JOIN futar\r\n    ON rendeles.fazon = futar.fazon\r\nGROUP BY futar.fnev\r\nORDER BY legtobb_rendelest_telito_futar DESC\r\nLIMIT 1"),
+                    ("kérdés",
+                    "sql"),
 
-                    ("4. Mi a legtöbbet rendelt pizza",
-                    "SELECT pnev AS legtobbet_rendelt_pizza FROM pizza JOIN tetel ON pizza.pazon = tetel.pazon GROUP BY pnev ORDER BY SUM(db) DESC LIMIT 1;")
+                    ("kérdés",
+                    "sql"),
                 };
 
                 foreach (var (kerdesek, valaszok) in queries)
