@@ -4,18 +4,18 @@ Importád be a "dolgozok.sql" script-et
 Készíts http://localhost/index.php?dolgozok végpontot a levesek adatainak a lekérdezésére.
 Készíts weblapot, amely a végpont felhasználásával táblázat szerűen megjeleníti az adatokat. 
 
-*** (amikor ilyen konzolos feladat van oda írva)
+////////////////////// -Amikor ilyen konzolos feladat van oda írva!!!!!
 Készíts konzolos alkalmazást, amely 
 kiírja a dolgozók számát, 
 a legmagasabb keresetű dolgozó nevét 
 hányan dolgoznak az egyes részlegeken
 kilistázza az "asztalosműhely"-ben dolgozók nevét
-***
+////////////////////
 
 Készíts grafikus felületű alkalmazást új dolgozó felvitelére
 ----------
 
-using MySql.Data.MySqlClient; //ezt írd be miután hozzá adtad a NUGETET
+using MySql.Data.MySqlClient; //1. lépés: NUGETET 2. lépsé ez a kód!!!!
 
 namespace cscsyc
 {
@@ -37,7 +37,7 @@ namespace cscsyc
                     ("1. feladat krédése...",
                     "SELECT COUNT(rendeles.idopont) AS Kuka_2023_rendeles_szamai FROM rendeles INNER JOIN vevo ON rendeles.vazon = vevo.vazon WHERE vevo.vnev = 'Kuka' AND rendeles.idopont BETWEEN '2023.01.01' AND '2023.12.31';"),
 
-                    ("kérdés",
+                    ("Hány pizzát rendelt kuka 2023-ban?",
                     "sql"),
 
                     ("kérdés",
@@ -50,7 +50,7 @@ namespace cscsyc
                 foreach (var (kerdesek, valaszok) in queries)
                 {
                     MySqlCommand command = new MySqlCommand(valaszok, dbConn);
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = command.ExecuteReader()) //itt hibát írhat, hogyha véletlen roszz pld az adatbázis
                     {
                         if (reader.Read())
                             Console.WriteLine($"{kerdesek}: {reader.GetValue(0)}");
