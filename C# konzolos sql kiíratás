@@ -96,23 +96,7 @@ foreach (var (kerdesek, valaszok) in queries)
 }
 
 és hogyha megint kéne ilyen több kiiratós????:
-egyben:
-
-foreach (var (kerdesek, valaszok) in queries)
-{
-    Console.WriteLine($"{kerdesek}:"); // Kérdés kiírása először
-
-    MySqlCommand command = new MySqlCommand(valaszok, dbConn);
-    using (var reader = command.ExecuteReader())
-    {
-        while (reader.Read())
-        {
-            if (kerdesek.Contains("részlegek és azon dolgozó létszámai"))
-            {
-                string reszleg = reader.GetString(0);
-                int dolgozokSzama = reader.GetInt32(1);
-                Console.WriteLine($"Részleg: {reszleg}; dolgozók: {dolgozokSzama}");
-            }
+egyben: egy másik else if és alá az egyszeres válaszolósak
             else if (kerdesek.Contains("'asztalos' műhelyben dolgozók nevei")) //ha kell valami plusz több válaszos akkor ezt másold ki és megint else if lesz!!!!!
             {
                 string nevek = reader.GetString(0); minél több adat kell annál több string és ahol nő a szám is (1)..... (2)
