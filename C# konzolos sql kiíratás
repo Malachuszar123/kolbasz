@@ -1,0 +1,52 @@
+using MySql.Data.MySqlClient; //ezt írd be miután hozzá adtad a NUGETET
+
+namespace cscsyc
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //innen kell kezdeni
+            string connString = "server=localhost; user=root; database=pizza; password=;";
+            MySqlConnection dbConn = new MySqlConnection(connString);
+
+            try
+            {
+                dbConn.Open();
+                Console.WriteLine("Sikeres adatbázis kapcsolódás!");
+
+                (string kerdesek, string valaszok)[] queries =
+                {
+                    ("1. Hányszor rendelt Kuka 2023-ban?",
+                    "SELECT COUNT(rendeles.idopont) AS Kuka_2023_rendeles_szamai FROM rendeles INNER JOIN vevo ON rendeles.vazon = vevo.vazon WHERE vevo.vnev = 'Kuka' AND rendeles.idopont BETWEEN '2023.01.01' AND '2023.12.31';"),
+
+                    ("2. Hány rendelés volt 2023. október 4-én",
+                    "SELECT COUNT(*) AS rendelesek_szama_oktober4 FROM rendeles WHERE DATE(idopont) = '2023-10-04';"),
+
+                    ("3. Melyik futár teljesítette a legtöbb rendelést",
+                    "SELECT\r\n  futar.fnev,\r\n  COUNT(rendeles.fazon) AS legtobb_rendelest_telito_futar\r\nFROM rendeles\r\n  INNER JOIN futar\r\n    ON rendeles.fazon = futar.fazon\r\nGROUP BY futar.fnev\r\nORDER BY legtobb_rendelest_telito_futar DESC\r\nLIMIT 1"),
+
+                    ("4. Mi a legtöbbet rendelt pizza",
+                    "SELECT pnev AS legtobbet_rendelt_pizza FROM pizza JOIN tetel ON pizza.pazon = tetel.pazon GROUP BY pnev ORDER BY SUM(db) DESC LIMIT 1;")
+                };
+
+                foreach (var (kerdesek, valaszok) in queries)
+                {
+                    MySqlCommand command = new MySqlCommand(valaszok, dbConn);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                            Console.WriteLine($"{kerdesek}: {reader.GetValue(0)}");
+                    }
+                }
+            }
+            finally
+            {
+                dbConn.Close();
+            }
+
+            Console.ReadLine();
+        }
+
+    }
+}
