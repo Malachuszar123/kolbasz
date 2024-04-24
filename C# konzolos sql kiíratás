@@ -34,10 +34,10 @@ namespace cscsyc
 
                 (string kerdesek, string valaszok)[] queries =
                 {
-                    ("1. feladat krédése...",
+                    ("1. feladat: krédése...",
                     "SELECT COUNT(rendeles.idopont) AS Kuka_2023_rendeles_szamai FROM rendeles INNER JOIN vevo ON rendeles.vazon = vevo.vazon WHERE vevo.vnev = 'Kuka' AND rendeles.idopont BETWEEN '2023.01.01' AND '2023.12.31';"),
 
-                    ("Hány pizzát rendelt kuka 2023-ban?",
+                    ("2. feladat: Hány pizzát rendelt kuka 2023-ban",
                     "sql"),
 
                     ("kérdés",
@@ -65,5 +65,63 @@ namespace cscsyc
             Console.ReadLine();
         }
 
+    }
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+ha pld több dolgot kell egyszerre kiiratnia nem csak egyet, az összes munkahelyi részleg létszáma kell, de csak egyet ír ki? ilyenkor használd ezt!
+
+foreach (var (kerdesek, valaszok) in queries)
+{
+    Console.WriteLine($"{kerdesek}:"); // Kérdés kiírása először
+
+    MySqlCommand command = new MySqlCommand(valaszok, dbConn);
+    using (var reader = command.ExecuteReader())
+    {
+        while (reader.Read())
+        {
+            if (kerdesek.Contains("krédése...")) //a : pont utáni szöveget rakd be ide!!!
+            {
+                string reszleg = reader.GetString(0);
+                int dolgozokSzama = reader.GetInt32(1);
+                Console.WriteLine($"Részleg: {reszleg}; dolgozók: {dolgozokSzama}");
+            }
+            else
+            {
+                Console.WriteLine($"Válasz: {reader.GetValue(0)}"); //egyszeri válaszok esete, de ugy is sorba rakja a feladatokat!!!
+            }
+        }
+    }
+}
+
+és hogyha megint kéne ilyen több kiiratós????:
+egyben:
+
+foreach (var (kerdesek, valaszok) in queries)
+{
+    Console.WriteLine($"{kerdesek}:"); // Kérdés kiírása először
+
+    MySqlCommand command = new MySqlCommand(valaszok, dbConn);
+    using (var reader = command.ExecuteReader())
+    {
+        while (reader.Read())
+        {
+            if (kerdesek.Contains("részlegek és azon dolgozó létszámai"))
+            {
+                string reszleg = reader.GetString(0);
+                int dolgozokSzama = reader.GetInt32(1);
+                Console.WriteLine($"Részleg: {reszleg}; dolgozók: {dolgozokSzama}");
+            }
+            else if (kerdesek.Contains("'asztalos' műhelyben dolgozók nevei")) //ha kell valami plusz több válaszos akkor ezt másold ki és megint else if lesz!!!!!
+            {
+                string nevek = reader.GetString(0); minél több adat kell annál több string és ahol nő a szám is (1)..... (2)
+                Console.WriteLine($"Asztalos műhyel dolgozói: {nevek}");
+            } //ez alá mehet is a bemásolás ha kell több több válaszos
+            else
+            {
+                Console.WriteLine($"Válasz: {reader.GetValue(0)}"); //egyszeres válaszok kiiráa, nyugi sorba fogja a válaszokat kiirni!
+            }
+        }
     }
 }
