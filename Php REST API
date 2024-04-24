@@ -1,0 +1,106 @@
+metódusok:
+HTTP methods:
+- GET (SELECT ...) $_GET[]
+- POST (INSERT INTO ...) $_POST[]
+- PUT (UPDATE ...) php://input
+- pATCH (uPDATE ...) php://input
+- DELETE ( DELETE ...) 
+
+
+databaseConnection.php : ELSŐ
+
+<?php
+$mysqli = new mysqli("localhost", "root", "", "pizza");
+if ($mysqli->connect_errno) {
+    die("Nincs adatbázis!");
+}
+$mysqli->set_charset("utf8");
+?>
+
+index.php : MÁSODIK
+
+<?php
+/*
+ *  GET http://localhost/API/index.php?pizza -> visszaadja az összes pizza összes adatát
+ *  POST http://localhost/API/index.php?pizza -> hozzáad egy új pizzát
+ *  DELETE http://localhost/API/index.php?pizza/{azon} -> töröl egy pizzát
+ */
+header("Content-type: application/json; charset=utf-8");
+//$_SERVER["REQUEST_METHOD"]
+$keresSzoveg = $_SERVER[ "QUERY_STRING"];
+$keresek = explode('/', $keresSzoveg); 
+switch ($keresek[0]) {
+    case "":
+        require_once './pizza.php';
+        break;
+
+    default:
+        http_response_code(404);
+        break;
+}
+?>
+
+pizza.php : HARMADIK
+
+<?php
+
+require_once './databaseConnect.php';
+switch ($_SERVER["REQUEST_METHOD"]) {
+    case "GET": //Listázza ki az összes pizza adatait!
+        $sql = "SELECT * FROM `pizza`";
+        $response = $mysqli->query($sql);
+        $pizzak = [];
+        while ($row = mysqli_fetch_array($response)) {
+            $pizzak[] = array(
+                "pazon" => $row["pazon"],
+                "pnev" => $row["pnev"],
+                "par" => $row["par"]
+            );
+        }
+        http_response_code(200);
+        echo json_encode($pizzak);
+        break;
+
+    case "POST": //Adjon hozzá egy új pizzát az adatbázishoz!
+        $pnev = $_POST["pnev"];
+        $par = $_POST["par"];
+        $sql = "INSERT INTO `pizza` (`pazon`, `pnev`, `par`) VALUES (NULL, ?, ?);";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si", $pnev, $par);
+        $stmt->execute();
+        http_response_code(200);
+        break;
+
+    case "PUT": //Módosítsa a meglévő pizzák adatait!
+        $input = json_decode(file_get_contents('php://input'), true);
+        $pnev = $input["pnev"];
+        $par = $input["par"];
+        $sql = "UPDATE `pizza` SET pnev = ?, par = ? WHERE pazon = ?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("sii", $pnev, $par, $keresek[1]);
+        $stmt->execute();
+        http_response_code(200);
+        break;
+
+    case "DELETE": //Töröljön egy pizzát az adatbázisból!
+        $azon = $keresek[1]; //-- az url második darabja az azonosító
+        $sql = "DELETE FROM `pizza` WHERE `pizza`.`pazon` = ?;";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $azon);
+        if ($stmt->execute()) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        break;
+
+    default:
+        $error = array("error_message" => "Nem létező metódus");
+        http_response_code(400);
+        echo json_encode($error);
+        break;
+}
+
+
+
+
