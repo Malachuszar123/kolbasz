@@ -1,6 +1,12 @@
 WPF APP.NET FrameWork
 
-🛑🛑🛑Bejelentkezés rész!🛑🛑🛑
+ha kell valami gyorsan: ctrl + f és rá keresel!
+mindegyik kódban van hibaüzenet, azokat is kiveheted valamennyire
+🛑🛑🛑1. Bejelentkezés rész!🛑🛑🛑
+🟢🟢🟢2. REGISZTRÁCIÓ🟢🟢🟢
+🟡🟡🟡3. DG: TÁBLÁZAT KIIRATÁS DATAGRIDBE🟡🟡🟡 DG: DataGrid
+🟣🟣🟣4. DG: ÚJ ADAT HOZZÁADÁSA A DATAGRIDBE🟣🟣🟣
+🔵🔵🔵5. COMBOBOX (lenyilőfül) KERESŐ🔵🔵🔵
 
 🛑🛑🛑1. BEJELENTKEZÉS🛑🛑🛑
 Add hozzá a NuGetet (mysql)
@@ -8,23 +14,7 @@ Fentre írd fel: using MySql.Data.MySqlClient;
 Az elsőnek létrehozott oldal jelenik meg elsőnek.
 Ha kell egy REGISZTRÁCIÓ és BEJELENTKEZÉS akkor ELSŐNEK A BEJELENTKEZÉST kell megcsinálni:
 
-Csinálsz egy "bejelentkezés" GRIDET aminek a tartalma:
 450x450 méretben kb és a mainwindow-ot is át írhatodd...
-
-"Fontos hogy mindegyiket nevezd el!"
-🔘csak a bal oldali szöveg:
--felhasználó név (TextBlock)
--jelszó (TextBlock)
-
-🔘jobb oldali ahova lehet is írni:
-2 db üres mező (TextBox)
--felhasználónévhez (nev)
--felhasználónévhez (jel)
-
-🔘lentre 3 gomb:
--bejelentkezés (bejgomb)
--regisztráció (reggomb)
--kilépés (kilepes)
 
 Bejelentkezés GRID:
  <TextBlock HorizontalAlignment="Left" Margin="32,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Felhasználónév:"/></TextBlock>
@@ -98,11 +88,7 @@ regisztráció oldalra át menni:
             Close();
         }
 
-kilépés gomb:
-        private void kilepes_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑
 
 🟢🟢🟢2. REGISZTRÁCIÓ🟢🟢🟢
 Létrehozása: (ha ez kell elsőnek akor ezt csináld meg elsőnek és hagyd ki a lépéseket!)
@@ -111,23 +97,7 @@ jobb katt a nevére > Add > Window WPF... > elnevezed
 Tehát már át tud vezetni a bejelentkezésről erre a részre.
 
 Csinálsz egy "bejelentkezés" GRIDET aminek a tartalma:
-450x450 méretben kb és a mainwindow-ot is át írhatodd...
-
-"Fontos hogy mindegyiket nevezd el!"
-!!ugyan azok csak más elrendezéssel!!
-🔘csak a bal oldali szöveg:
--felhasználó név (TextBlock)
--jelszó (TextBlock)
-
-🔘jobb oldali ahova lehet is írni:
-2 db üres mező (TextBox)
--felhasználónévhez (nev)
--felhasználónévhez (jel)
-
-🔘lentre 3 gomb:
--bejelentkezés (bejgomb)
--regisztráció (reggomb)
--kilépés (kilepes)
+Ez is lehet: 450x450
 
 Regisztráció GRID:
         <TextBlock HorizontalAlignment="Left" Margin="32,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Felhasználónév:"/></TextBlock>
@@ -138,8 +108,6 @@ Regisztráció GRID:
         <Button x:Name="reggomb" Content="Regisztráció" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Button x:Name="bejgomb" Content="Inkább bejelentkezek" HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Button x:Name="kilepes" Content="Kilépés" HorizontalAlignment="Center" Margin="0,355,0,0" VerticalAlignment="Top" FontSize="20"/>
-
-regisztráció oldalra át menni:
 
 regisztráció az adatbázisba:
  private void reggomb_Click(object sender, RoutedEventArgs e)
@@ -165,8 +133,8 @@ regisztráció az adatbázisba:
              return;
          }
 
-             // Ha a felhasználónév még nem létezik, beszúrjuk az adatbázisba
-         string insertQuery = "INSERT INTO felhasznalok (nev, jelszo) VALUES (@nev, @jelszo)";
+         // Ha a felhasználónév még nem létezik, beszúrjuk az adatbázisba
+         string insertQuery = "INSERT INTO felhasznalok (nev, jelszo) VALUES (@nev, @jelszo)"; //nev és jelszo az oszlopok nevei
          MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
          insertCommand.Parameters.AddWithValue("@nev", felhasznalonev); //a @nev az a neve az oszlopnak amiben a felhasználó nevek vannak //ugyan így ha más adat kell akkor más oszlopnevet írsz ide meg @ után is
          insertCommand.Parameters.AddWithValue("@jelszo", jelszo); // ugyan úgy ez az oszlop neve ahol a jelszavak vannak; //ugyan így ha más adat kell akkor más oszlopnevet írsz ide meg
@@ -203,8 +171,229 @@ regisztráció az adatbázisba:
             Close();
         }
 
-kilépés gomb:
-        private void kilepes_Click(object sender, RoutedEventArgs e)
+🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢
+
+🟡🟡🟡3. DG: TÁBLÁZAT KIIRATÁS DATAGRIDBE🟡🟡🟡
+
+táblázat kiiratásos DataGrid GRID:
+neve: tablazat (de ez a gridben amugy is benne van)
+
+<DataGrid x:Name="tablazat" AutoGenerateColumns="False" IsReadOnly="True" Margin="98,90,190,89" SelectionChanged="tablazat_SelectionChanged">
+    <DataGrid.Columns>
+        <DataGridTextColumn Header="Neve" Binding="{Binding neve}" Width="*"/> //header: ami az első oszlopba legyen kiirva mint oszlop név, neve: az adatbázisból melyik oszlop legyen oda berakva
+        <DataGridTextColumn Header="Kaloria" Binding="{Binding kaloria}" Width="*"/> //Width="*" a táblázatban elosztja normálisan az oszlopokat
+    </DataGrid.Columns>
+</DataGrid>
+
+táblázatos kód hogy kiirja az egyénileg kért táblázatot sql segitségével:
+TÁBLÁZAT KIIRATÁSA: 3 részből áll; DATAGRID-ben
+1. kód részlet:
+        public Program()
         {
-            this.Close();
+            InitializeComponent();
+            LoadData(); //kell fentre egy ilyen
         }
+
+2. kód részlet: //kell a loaddata()-hoz egy kis adatbázis össze kötés
+ private void LoadData()
+ {
+     string connStr = "server=localhost;user=root;database=vannevesjelszo;password=";
+     MySqlConnection conn = new MySqlConnection(connStr);
+
+     try
+     {
+         conn.Open();
+
+         string sql = "SELECT * FROM levesek"; //itt add meg hogy mit jelítsen meg a táblázatba és vele együtt módosítsd a datagridet is.
+         MySqlCommand cmd = new MySqlCommand(sql, conn);
+         MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+         DataTable dt = new DataTable();
+         da.Fill(dt);
+
+         tablazat.ItemsSource = dt.DefaultView;
+     }
+     catch (Exception ex)
+     {
+         MessageBox.Show(ex.ToString());
+     }
+     finally
+     {
+         conn.Close();
+     }
+ }
+
+3. kód részlet
+//ez az amikor a datagridre rá kattintasz 2x. itt kell legyen, mert ha nincs hibát írhat. Ide nem kell írni semmitse
+        private void tablazat_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡
+
+🟣🟣🟣4. DG: ÚJ ADAT HOZZÁADÁSA A DATAGRIDBE🟣🟣🟣
+ugyan ebben a Program.xaml-be vagyunk magában a Programban.
+
+ott van már az elkészített és betöltött adatok a DataGridbe. (hogyan kell? itt van: 🟡🟡🟡3. TÁBLÁZAT KIIRATÁS DATAGRIDBE🟡🟡🟡)
+
+FONTOS HOGY NEVEZD EL MEGFELELŐEN A GOMBOKAT MEG MINDEN ISTEN NYILÁT.
+GRID: mik ezek? Uj elem hozzáadása; pld: leves neve(tbox): almaleves(tblock); ezek sokasága de magadnak is megtudod csinálni!!!
+ <Button x:Name="hozzaad" Content="Hozzáad" HorizontalAlignment="Left" Margin="570,295,0,0" VerticalAlignment="Top" FontSize="20" Click="Button_Click_1"/>
+ <TextBox x:Name="nev" HorizontalAlignment="Left" Margin="541,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+ <TextBox x:Name="kaloria" HorizontalAlignment="Left" Margin="541,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+ <TextBox x:Name="fohozzavalo" HorizontalAlignment="Left" Margin="541,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+ <TextBox x:Name="keszitette" HorizontalAlignment="Left" Margin="541,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+ <TextBox x:Name="osszlevesek" HorizontalAlignment="Left" Margin="541,228,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+ <TextBlock HorizontalAlignment="Left" Margin="541,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Adj saját adatot"/></TextBlock>
+ <TextBlock HorizontalAlignment="Left" Margin="405,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Név:"/></TextBlock>
+ <TextBlock HorizontalAlignment="Left" Margin="405,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Kalória:"/></TextBlock>
+ <TextBlock HorizontalAlignment="Left" Margin="405,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Fő hozzávaló:"/></TextBlock>
+ <TextBlock HorizontalAlignment="Left" Margin="405,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Készítette:"/></TextBlock>
+ <TextBlock HorizontalAlignment="Left" Margin="400,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Össz levesek:"/></TextBlock>
+
+A hozzáadó gombra kattinta:
+string nevValue = nev.Text; //minden adatrol amit hozzá szeretnénk adni arrol kell egy string (ha szöveg) és int (ha szám) value-t
+int kaloriaValue = int.Parse(kaloria.Text); //aminek el lett nevezve a textbox ugy nevezd itt el
+string fohozzavaloValue = fohozzavalo.Text;
+string keszitetteValue = keszitette.Text;
+int osszlevesekValue = int.Parse(osszlevesek.Text);
+
+string connStr = "server=localhost;user=root;database=vannevesjelszo;password="; //sima csatlakozás megint...
+MySqlConnection conn = new MySqlConnection(connStr);
+
+try
+{
+    conn.Open();
+
+    // SQL parancs előkészítése az adatok beszúrásához //itt ez a hosszu ide az kell ami táblázatban az első sor nevei: pld fohozzavalo és @-cal elmondjuk melyik aza textbox amelyikbe írom a szöveget. tehát @fohozzavalo
+    string sql = "INSERT INTO levesek (neve, kaloria, fohozzavalo, keszitette, osszlevesek) VALUES (@nev, @kaloria, @fohozzavalo, @keszitette, @osszlevesek)";
+    MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+    // Paraméterek hozzáadása a parancshoz
+    cmd.Parameters.AddWithValue("@nev", nevValue);
+    cmd.Parameters.AddWithValue("@kaloria", kaloriaValue);
+    cmd.Parameters.AddWithValue("@fohozzavalo", fohozzavaloValue);
+    cmd.Parameters.AddWithValue("@keszitette", keszitetteValue);
+    cmd.Parameters.AddWithValue("@osszlevesek", osszlevesekValue);
+
+    // Parancs végrehajtása
+    cmd.ExecuteNonQuery();
+
+    // Adatok újratöltése a DataGrid-be
+    LoadData();
+}
+catch (Exception ex)
+{
+    MessageBox.Show("Hiba történt az adatok mentése közben: " + ex.Message);
+}
+finally
+{
+    conn.Close();
+}
+
+2.0
+ha szeretnénk azt, hogy ellenőrizve legyen hogy minden ki van-e töltve és biztos szám került-e oda ahova kelett:
+
+     // Ellenőrizzük, hogy minden mező ki van-e töltve
+     if (string.IsNullOrWhiteSpace(nev.Text) || string.IsNullOrWhiteSpace(kaloria.Text) ||
+         string.IsNullOrWhiteSpace(fohozzavalo.Text) || string.IsNullOrWhiteSpace(keszitette.Text) ||
+         string.IsNullOrWhiteSpace(osszlevesek.Text))
+     {
+         MessageBox.Show("Minden mezőt ki kell tölteni.");
+         return;
+     }
+
+     // Ellenőrizzük, hogy a kalória és az összlevesek mezők értékei számként értelmezhetők-e
+     int kaloriaValue, osszlevesekValue;
+     if (!int.TryParse(kaloria.Text, out kaloriaValue) || !int.TryParse(osszlevesek.Text, out osszlevesekValue))
+     {
+         MessageBox.Show("A kalória és az összlevesek mezők csak számokat tartalmazhatnak.");
+         return;
+     }
+
+     string nevValue = nev.Text;
+     string fohozzavaloValue = fohozzavalo.Text;
+     string keszitetteValue = keszitette.Text;
+
+     string connStr = "server=localhost;user=root;database=vannevesjelszo;password=";
+     MySqlConnection conn = new MySqlConnection(connStr);
+
+     try
+     {
+         conn.Open();
+
+         // SQL parancs előkészítése az adatok beszúrásához
+         string sql = "INSERT INTO levesek (neve, kaloria, fohozzavalo, keszitette, osszlevesek) VALUES (@nev, @kaloria, @fohozzavalo, @keszitette, @osszlevesek)";
+         MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+         // Paraméterek hozzáadása a parancshoz
+         cmd.Parameters.AddWithValue("@nev", nevValue);
+         cmd.Parameters.AddWithValue("@kaloria", kaloriaValue);
+         cmd.Parameters.AddWithValue("@fohozzavalo", fohozzavaloValue);
+         cmd.Parameters.AddWithValue("@keszitette", keszitetteValue);
+         cmd.Parameters.AddWithValue("@osszlevesek", osszlevesekValue);
+
+         // Parancs végrehajtása
+         cmd.ExecuteNonQuery();
+
+         // Adatok újratöltése a DataGrid-be
+         LoadData();
+     }
+     catch (Exception ex)
+     {
+         MessageBox.Show("Hiba történt az adatok mentése közben: " + ex.Message);
+     }
+     finally
+     {
+         conn.Close();
+     }
+
+🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣
+
+🔵🔵🔵5. COMBOBOX (lenyilőfül) KERESŐ🔵🔵🔵
+
+ezzel feltöltjük a megadott sql-el.
+        private void LoadLevesek()
+        {
+            string connStr = "server=localhost;user=root;database=vannevesjelszo;password=";
+            MySqlConnection conn = new MySqlConnection(connStr);
+
+            try
+            {
+                conn.Open();
+
+                string sql = "SELECT neve FROM levesek"; //itt adjuk meg neki pld melyik oszlopot töltse be, az lehet sima vagy egyedi kód
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                // Adatok hozzáadása a ComboBox-hoz
+                while (rdr.Read())
+                {
+                    lista.Items.Add(rdr["neve"]);
+                }
+
+                rdr.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiba történt az adatok betöltése közben: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Az ablak betöltődésekor hívd meg a LoadLevesek metódust
+            LoadLevesek();
+        }
+
+Az előző kód javítása egy picit, legyen a combobon egy megjelenő szöveg alapból, mindne kód ujra tesztelése és probald meg hogy egyszer kelljen az sql
+csatlakozás egy xaml kódban és nem 100 milliószor!!!
+Amire rá kattint a felhasználó csak azt hozza ki a datagrid: már csak ez a kettő kell!!!
+Amire rá kattint a felhasználó csak azt hozza ki a textbox: már csak ez a kettő kell!!!
+
+🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
