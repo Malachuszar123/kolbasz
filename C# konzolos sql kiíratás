@@ -33,10 +33,10 @@ namespace cscsyc
                 dbConn.Open();
                 Console.WriteLine("Sikeres adatbázis kapcsolódás!");
 
-                (string kerdesek, string valaszok)[] queries =
+                (string kerdesek, string valaszok)[] lekerdezesek =
                 {
                     ("1. feladat: krédése...",
-                    "SELECT COUNT(rendeles.idopont) AS Kuka_2023_rendeles_szamai FROM rendeles INNER JOIN vevo ON rendeles.vazon = vevo.vazon WHERE vevo.vnev = 'Kuka' AND rendeles.idopont BETWEEN '2023.01.01' AND '2023.12.31';"),
+                    "sql"),
 
                     ("2. feladat: Hány pizzát rendelt kuka 2023-ban",
                     "sql"),
@@ -48,10 +48,10 @@ namespace cscsyc
                     "sql"),
                 };
 
-                foreach (var (kerdesek, valaszok) in queries)
+                foreach (var (kerdesek, valaszok) in lekerdezesek)
                 {
                     MySqlCommand command = new MySqlCommand(valaszok, dbConn);
-                    using (var reader = command.ExecuteReader()) //itt hibát írhat, hogyha véletlen roszz pld az adatbázis
+                    using (var reader = command.ExecuteReader()) //itt hibát írhat, hogyha véletlen roszz az adatbázis
                     {
                         if (reader.Read())
                             Console.WriteLine($"{kerdesek}: {reader.GetValue(0)}");
