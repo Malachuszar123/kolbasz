@@ -9,14 +9,14 @@ mindegyik kódban van hibaüzenet, azokat is kiveheted valamennyire
 🔵🔵🔵5. COMBOBOX (lenyilőfül) KERESŐ🔵🔵🔵
 
 🛑🛑🛑1. BEJELENTKEZÉS🛑🛑🛑
-Add hozzá a NuGetet (mysql)
-Fentre írd fel: using MySql.Data.MySqlClient;
-Az elsőnek létrehozott oldal jelenik meg elsőnek.
-Ha kell egy REGISZTRÁCIÓ és BEJELENTKEZÉS akkor ELSŐNEK A BEJELENTKEZÉST kell megcsinálni:
+🛑Add hozzá a NuGetet (mysql)
+🛑Fentre írd fel: using MySql.Data.MySqlClient;
+🛑Az elsőnek létrehozott oldal jelenik meg elsőnek.
+🛑Ha kell egy REGISZTRÁCIÓ és BEJELENTKEZÉS akkor ELSŐNEK A BEJELENTKEZÉST kell megcsinálni:
 
-450x450 méretben kb és a mainwindow-ot is át írhatodd...
+🛑450x450 méretben kb és a mainwindow-ot is át írhatodd...
 
-Bejelentkezés GRID:
+🛑Bejelentkezés GRID:
  <TextBlock HorizontalAlignment="Left" Margin="32,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Felhasználónév:"/></TextBlock>
  <TextBox x:Name="nev" HorizontalAlignment="Left" Margin="207,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" FontSize="20"/>
  <TextBlock HorizontalAlignment="Left" Margin="32,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Jelszó:"/></TextBlock>
@@ -26,15 +26,15 @@ Bejelentkezés GRID:
  <Button x:Name="reggomb" Content="Regisztráció" HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" FontSize="20"/>
  <Button x:Name="kilepes" Content="Kilépés" HorizontalAlignment="Center" Margin="0,355,0,0" VerticalAlignment="Top" FontSize="20"/>
 
-Már meglévő felhasználós és jelszavas adatbázis elérése és azzal bejelentkezése:
-Be inportáltad az sql-t és kész.
-Adatbázis létrehozása: 
-db forge > jobb katt a localhostra > New Database > beirod az adatokat > fent a DATA 
+🛑Már meglévő felhasználós és jelszavas adatbázis elérése és azzal bejelentkezése:
+🛑Be inportáltad az sql-t és kész.
+🛑Adatbázis létrehozása: 
+🛑db forge > jobb katt a localhostra > New Database > beirod az adatokat > fent a DATA 
 > alatta database kiválasztása > pici + jel > beírkálod az adatokat
 
-Bejelemtkezés kódok:
+🛑Bejelemtkezés kódok:
 
-Bejelentkezés az adatbázisból:
+🛑Bejelentkezés az adatbázisból:
         private void bejgomb_Click(object sender, RoutedEventArgs e)
 {
     string felhasznalonev = nev.Text;
@@ -80,7 +80,7 @@ Bejelentkezés az adatbázisból:
     }
 }
 
-regisztráció oldalra át menni:
+🛑regisztráció oldalra át menni:
         private void reggomb_Click(object sender, RoutedEventArgs e)
         {
             var regWindow = new Regisztráció();
@@ -91,15 +91,15 @@ regisztráció oldalra át menni:
 🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑
 
 🟢🟢🟢2. REGISZTRÁCIÓ🟢🟢🟢
-Létrehozása: (ha ez kell elsőnek akor ezt csináld meg elsőnek és hagyd ki a lépéseket!)
+🟢Létrehozása: (ha ez kell elsőnek akor ezt csináld meg elsőnek és hagyd ki a lépéseket!)
 jobb katt a nevére > Add > Window WPF... > elnevezed
 
-Tehát már át tud vezetni a bejelentkezésről erre a részre.
+🟢Tehát már át tud vezetni a bejelentkezésről erre a részre.
 
-Csinálsz egy "bejelentkezés" GRIDET aminek a tartalma:
-Ez is lehet: 450x450
+🟢Csinálsz egy "bejelentkezés" GRIDET aminek a tartalma:
+🟢Ez is lehet: 450x450
 
-Regisztráció GRID:
+🟢Regisztráció GRID:
         <TextBlock HorizontalAlignment="Left" Margin="32,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Felhasználónév:"/></TextBlock>
         <TextBox x:Name="nev" HorizontalAlignment="Left" Margin="207,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" FontSize="20"/>
         <TextBlock HorizontalAlignment="Left" Margin="32,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Jelszó:"/></TextBlock>
@@ -109,7 +109,7 @@ Regisztráció GRID:
         <Button x:Name="bejgomb" Content="Inkább bejelentkezek" HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Button x:Name="kilepes" Content="Kilépés" HorizontalAlignment="Center" Margin="0,355,0,0" VerticalAlignment="Top" FontSize="20"/>
 
-regisztráció az adatbázisba:
+🟢regisztráció az adatbázisba:
  private void reggomb_Click(object sender, RoutedEventArgs e)
  {
      string felhasznalonev = nev.Text;
@@ -163,7 +163,7 @@ regisztráció az adatbázisba:
          }
  }
 
-átváltás a bejelentkezésre:
+🟢Átváltás a bejelentkezésre:
         private void bejgomb_Click(object sender, RoutedEventArgs e)
         {
             var regWindow = new MainWindow();
@@ -175,8 +175,8 @@ regisztráció az adatbázisba:
 
 🟡🟡🟡3. DG: TÁBLÁZAT KIIRATÁS DATAGRIDBE🟡🟡🟡
 
-táblázat kiiratásos DataGrid GRID:
-neve: tablazat (de ez a gridben amugy is benne van)
+🟡táblázat kiiratásos DataGrid GRID:
+🟡neve: tablazat (de ez a gridben amugy is benne van)
 
 <DataGrid x:Name="tablazat" AutoGenerateColumns="False" IsReadOnly="True" Margin="98,90,190,89" SelectionChanged="tablazat_SelectionChanged">
     <DataGrid.Columns>
@@ -185,16 +185,16 @@ neve: tablazat (de ez a gridben amugy is benne van)
     </DataGrid.Columns>
 </DataGrid>
 
-táblázatos kód hogy kiirja az egyénileg kért táblázatot sql segitségével:
-TÁBLÁZAT KIIRATÁSA: 3 részből áll; DATAGRID-ben
-1. kód részlet:
+🟡táblázatos kód hogy kiirja az egyénileg kért táblázatot sql segitségével:
+🟡TÁBLÁZAT KIIRATÁSA: 3 részből áll; DATAGRID-ben
+🟡1. kód részlet:
         public Program()
         {
             InitializeComponent();
             LoadData(); //kell fentre egy ilyen
         }
 
-2. kód részlet: //kell a loaddata()-hoz egy kis adatbázis össze kötés
+🟡2. kód részlet: //kell a loaddata()-hoz egy kis adatbázis össze kötés
  private void LoadData()
  {
      string connStr = "server=localhost;user=root;database=vannevesjelszo;password=";
@@ -223,7 +223,7 @@ TÁBLÁZAT KIIRATÁSA: 3 részből áll; DATAGRID-ben
      }
  }
 
-3. kód részlet
+🟡3. kód részlet
 //ez az amikor a datagridre rá kattintasz 2x. itt kell legyen, mert ha nincs hibát írhat. Ide nem kell írni semmitse
         private void tablazat_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -233,11 +233,11 @@ TÁBLÁZAT KIIRATÁSA: 3 részből áll; DATAGRID-ben
 🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡
 
 🟣🟣🟣4. DG: ÚJ ADAT HOZZÁADÁSA A DATAGRIDBE🟣🟣🟣
-ugyan ebben a Program.xaml-be vagyunk magában a Programban.
+🟣ugyan ebben a Program.xaml-be vagyunk magában a Programban.
 
-ott van már az elkészített és betöltött adatok a DataGridbe. (hogyan kell? itt van: 🟡🟡🟡3. TÁBLÁZAT KIIRATÁS DATAGRIDBE🟡🟡🟡)
+🟣ott van már az elkészített és betöltött adatok a DataGridbe. (hogyan kell? itt van: 🟡🟡🟡3. TÁBLÁZAT KIIRATÁS DATAGRIDBE🟡🟡🟡)
 
-FONTOS HOGY NEVEZD EL MEGFELELŐEN A GOMBOKAT MEG MINDEN ISTEN NYILÁT.
+🟣FONTOS HOGY NEVEZD EL MEGFELELŐEN A GOMBOKAT MEG MINDEN ISTEN NYILÁT.
 GRID: mik ezek? Uj elem hozzáadása; pld: leves neve(tbox): almaleves(tblock); ezek sokasága de magadnak is megtudod csinálni!!!
  <Button x:Name="hozzaad" Content="Hozzáad" HorizontalAlignment="Left" Margin="570,295,0,0" VerticalAlignment="Top" FontSize="20" Click="Button_Click_1"/>
  <TextBox x:Name="nev" HorizontalAlignment="Left" Margin="541,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
@@ -252,7 +252,7 @@ GRID: mik ezek? Uj elem hozzáadása; pld: leves neve(tbox): almaleves(tblock); 
  <TextBlock HorizontalAlignment="Left" Margin="405,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Készítette:"/></TextBlock>
  <TextBlock HorizontalAlignment="Left" Margin="400,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Össz levesek:"/></TextBlock>
 
-A hozzáadó gombra kattinta:
+🟣A hozzáadó gombra kattinta:
 string nevValue = nev.Text; //minden adatrol amit hozzá szeretnénk adni arrol kell egy string (ha szöveg) és int (ha szám) value-t
 int kaloriaValue = int.Parse(kaloria.Text); //aminek el lett nevezve a textbox ugy nevezd itt el
 string fohozzavaloValue = fohozzavalo.Text;
@@ -292,8 +292,8 @@ finally
     conn.Close();
 }
 
-2.0
-ha szeretnénk azt, hogy ellenőrizve legyen hogy minden ki van-e töltve és biztos szám került-e oda ahova kelett:
+🟣Ellenőrízve
+🟣Ha szeretnénk azt, hogy ellenőrizve legyen hogy minden ki van-e töltve és biztos szám került-e oda ahova kelett:
 
      // Ellenőrizzük, hogy minden mező ki van-e töltve
      if (string.IsNullOrWhiteSpace(nev.Text) || string.IsNullOrWhiteSpace(kaloria.Text) ||
@@ -353,7 +353,7 @@ ha szeretnénk azt, hogy ellenőrizve legyen hogy minden ki van-e töltve és bi
 
 🔵🔵🔵5. COMBOBOX (lenyilőfül) KERESŐ🔵🔵🔵
 
-ezzel feltöltjük a megadott sql-el.
+🔵ezzel feltöltjük a megadott sql-el.
         private void LoadLevesek()
         {
             string connStr = "server=localhost;user=root;database=vannevesjelszo;password=";
@@ -391,9 +391,9 @@ ezzel feltöltjük a megadott sql-el.
             LoadLevesek();
         }
 
-Az előző kód javítása egy picit, legyen a combobon egy megjelenő szöveg alapból, mindne kód ujra tesztelése és probald meg hogy egyszer kelljen az sql
+❗Az előző kód javítása egy picit, legyen a combobon egy megjelenő szöveg alapból, mindne kód ujra tesztelése és probald meg hogy egyszer kelljen az sql
 csatlakozás egy xaml kódban és nem 100 milliószor!!!
 Amire rá kattint a felhasználó csak azt hozza ki a datagrid: már csak ez a kettő kell!!!
-Amire rá kattint a felhasználó csak azt hozza ki a textbox: már csak ez a kettő kell!!!
+Amire rá kattint a felhasználó csak azt hozza ki a textbox: már csak ez a kettő kell!!!❗
 
 🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
