@@ -1,8 +1,9 @@
 WPF APP.NET FrameWork
 
-1. add hozzá a NuGetet (mysql)
+🛑🛑🛑Bejelentkezés rész!🛑🛑🛑
 
-Regisztrációs és Bejelentkezés: ------------------------------------------------------------
+🛑🛑🛑1. BEJELENTKEZÉS:🛑🛑🛑
+Add hozzá a NuGetet (mysql)
 Az az első oldal (továbbiakban: ELSŐ) jelenik meg, ami elsőnek ott van előtted. 
 Ha kell egy REGISZTRÁCIÓ és BEJELENTKEZÉS akkor elsőnek a bejelentkezést kell megcsinálni:
 
@@ -22,3 +23,18 @@ Csinálsz egy "bejelentkezés" GRIDET aminek a tartalma:
 -bejelentkezés (bejgomb)
 -regisztráció (reggomb)
 -kilépés (kilepes)
+
+Bejelentkezés GRID:
+ <TextBlock HorizontalAlignment="Left" Margin="32,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Felhasználónév:"/></TextBlock>
+ <TextBox x:Name="nev" HorizontalAlignment="Left" Margin="207,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" FontSize="20"/>
+ <TextBlock HorizontalAlignment="Left" Margin="32,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Jelszó:"/></TextBlock>
+ <TextBox x:Name="jel" HorizontalAlignment="Left" Margin="207,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" FontSize="20"/>
+ <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36"><Run Language="hu-hu" Text="Bejelentkezés"/></TextBlock>
+ <Button x:Name="bejgomb" Content="Bejelentkezés" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" FontSize="20"/>
+ <Button x:Name="reggomb" Content="Regisztráció" HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" FontSize="20"/>
+ <Button x:Name="kilepes" Content="Kilépés" HorizontalAlignment="Center" Margin="0,355,0,0" VerticalAlignment="Top" FontSize="20"/>
+
+Már meglévő felhasználós és jelszavas adatbázis elérése és azzal bejelentkezése:
+Be inportáltad az sql-t.
+Vagy te hoztad létre. -> db forge > jobb katt a localhostra > New Database > beirod az adatokat > fent a DATA 
+> alatta database kiválasztása > pici + jel > beírkálod az adatokat
