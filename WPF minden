@@ -41,6 +41,52 @@ Adatbázis létrehozása: db forge > jobb katt a localhostra > New Database > be
 
 Bejelemtkezés kódok:
 
+Bejelentkezés az adatbázisból:
+        private void bejgomb_Click(object sender, RoutedEventArgs e)
+        {
+            string felhasznalonev = nev.Text;
+            string jelszo = jel.Text; // A jelszót a Password property-n keresztül érjük el
+
+            // Adatbázis kapcsolat beállítása
+            string connectionString = "Server=localhost;Database=vannevesjelszo;Uid=root;Pwd=;";
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            try
+            {
+                connection.Open();
+
+                // Ellenőrizzük, hogy a megadott felhasználónév és jelszó szerepel-e az adatbázisban
+                string query = "SELECT * FROM felhasznalok WHERE nev=@nev AND jelszo=@jelszo";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@nev", felhasznalonev);
+                command.Parameters.AddWithValue("@jelszo", jelszo);
+
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        MessageBox.Show("Sikeres bejelentkezés!");
+                        var regWindow = new Program();
+                        regWindow.Show();
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Hibás felhasználónév vagy jelszó!");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiba történt az adatbázis kapcsolódásakor: " + ex.Message);
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
+        }
+
 regisztráció oldalra át menni:
         private void reggomb_Click(object sender, RoutedEventArgs e)
         {
