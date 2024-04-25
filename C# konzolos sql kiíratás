@@ -56,14 +56,14 @@ namespace cscsyc
                         if (reader.Read())
                             Console.WriteLine($"{kerdesek}: {reader.GetValue(0)}");
                     }
+                    // Üres sor kiíratása minden kérdés után
+                    Console.WriteLine();
                 }
             }
             finally
             {
                 dbConn.Close();
             }
-
-            Console.ReadLine();
         }
 //idáig /\
     }
@@ -94,6 +94,7 @@ foreach (var (kerdesek, valaszok) in queries)
             }
         }
     }
+    Console.WriteLine(); // Üres sor kiírása a következő kérdés előtt
 }
 
 és hogyha megint kéne ilyen több kiiratós????:
@@ -107,6 +108,3 @@ egyben: egy másik else if és alá az egyszeres válaszolósak
             {
                 Console.WriteLine($"{reader.GetValue(0)}"); //egyszeres válaszok kiiráa, nyugi sorba fogja a válaszokat kiirni!
             }
-        }
-    }
-}
