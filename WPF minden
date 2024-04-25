@@ -1,1 +1,24 @@
+WPF APP.NET FrameWork
 
+1. add hozzá a NuGetet (mysql)
+
+Regisztrációs és Bejelentkezés: ------------------------------------------------------------
+Az az első oldal (továbbiakban: ELSŐ) jelenik meg, ami elsőnek ott van előtted. 
+Ha kell egy REGISZTRÁCIÓ és BEJELENTKEZÉS akkor elsőnek a bejelentkezést kell megcsinálni:
+
+Csinálsz egy "bejelentkezés" GRIDET aminek a tartalma:
+"Fontos hogy mindegyiket nevezd el!"
+
+🔘csak a bal oldali szöveg:
+-felhasználó név (TextBlock)
+-jelszó (TextBlock)
+
+🔘jobb oldali ahova lehet is írni:
+2 db üres mező (TextBox)
+-felhasználónévhez (nev)
+-felhasználónévhez (jel)
+
+🔘lentre 3 gomb:
+-bejelentkezés (bejgomb)
+-regisztráció (reggomb)
+-kilépés (kilepes)
