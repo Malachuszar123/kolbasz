@@ -1,12 +1,12 @@
 ----------
 teljes pálda:
-Importád be a "dolgozok.sql" script-et
+Importád be a "dolgozok.sql" script-et (a script az csak egy megnevezés de simán be importálod az sql-t)
 Készíts http://localhost/index.php?dolgozok végpontot a levesek adatainak a lekérdezésére.
 Készíts weblapot, amely a végpont felhasználásával táblázat szerűen megjeleníti az adatokat. 
 
-////////////////////// -Amikor ilyen konzolos feladat van oda írva!!!!!
-Készíts konzolos alkalmazást, amely 
-kiírja a dolgozók számát, 
+////////////////////// -Amikor ilyen konzolos feladat van oda írva!!!!! (a kód erre vonatkozik)
+KÉSZÍTS KONZOLOS ALKALMAZÁST, 
+amely kiírja a dolgozók számát, 
 a legmagasabb keresetű dolgozó nevét 
 hányan dolgoznak az egyes részlegeken
 kilistázza az "asztalosműhely"-ben dolgozók nevét
@@ -15,7 +15,8 @@ kilistázza az "asztalosműhely"-ben dolgozók nevét
 Készíts grafikus felületű alkalmazást új dolgozó felvitelére
 ----------
 
-using MySql.Data.MySqlClient; //1. lépés: NUGETET 2. lépsé ez a kód!!!!
+//1. LÉPSÉS: NuGets mysql hozzáadása
+using MySql.Data.MySqlClient; // 2. LÉPÉS
 
 namespace cscsyc
 {
@@ -64,7 +65,7 @@ namespace cscsyc
 
             Console.ReadLine();
         }
-
+//idáig /\
     }
 }
 
@@ -77,7 +78,7 @@ foreach (var (kerdesek, valaszok) in queries)
     Console.WriteLine($"{kerdesek}:"); // Kérdés kiírása először
 
     MySqlCommand command = new MySqlCommand(valaszok, dbConn);
-    using (var reader = command.ExecuteReader())
+    using (var reader = command.ExecuteReader())  //itt akkor lehet hiba ha nem csináltad még meg a kérdésekre a választ.. ott hagytad azt sql szöveget
     {
         while (reader.Read())
         {
@@ -89,7 +90,7 @@ foreach (var (kerdesek, valaszok) in queries)
             }
             else
             {
-                Console.WriteLine($"Válasz: {reader.GetValue(0)}"); //egyszeri válaszok esete, de ugy is sorba rakja a feladatokat!!!
+                Console.WriteLine($"{reader.GetValue(0)}"); //egyszeri válaszok esete, de ugy is sorba rakja a feladatokat!!!
             }
         }
     }
@@ -99,12 +100,12 @@ foreach (var (kerdesek, valaszok) in queries)
 egyben: egy másik else if és alá az egyszeres válaszolósak
             else if (kerdesek.Contains("'asztalos' műhelyben dolgozók nevei")) //ha kell valami plusz több válaszos akkor ezt másold ki és megint else if lesz!!!!!
             {
-                string nevek = reader.GetString(0); minél több adat kell annál több string és ahol nő a szám is (1)..... (2)
+                string nevek = reader.GetString(0); //minél több adat kell annál több string és ahol nő a szám is (1)...(2) //ha szöveg akk GetString, ha szám akk elejére int és GetInt32; string/int után az oszlop elnevezése legyen ott pld oszlop neve: nevek akkor: string nevek
                 Console.WriteLine($"Asztalos műhyel dolgozói: {nevek}");
             } //ez alá mehet is a bemásolás ha kell több több válaszos
             else
             {
-                Console.WriteLine($"Válasz: {reader.GetValue(0)}"); //egyszeres válaszok kiiráa, nyugi sorba fogja a válaszokat kiirni!
+                Console.WriteLine($"{reader.GetValue(0)}"); //egyszeres válaszok kiiráa, nyugi sorba fogja a válaszokat kiirni!
             }
         }
     }
