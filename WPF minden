@@ -2,7 +2,7 @@ WPF APP.NET FrameWork
 
 🛑🛑🛑Bejelentkezés rész!🛑🛑🛑
 
-🛑🛑🛑1. BEJELENTKEZÉS:🛑🛑🛑
+🛑🛑🛑1. BEJELENTKEZÉS🛑🛑🛑
 Add hozzá a NuGetet (mysql)
 Az az első oldal (továbbiakban: ELSŐ) jelenik meg, ami elsőnek ott van előtted. 
 Ha kell egy REGISZTRÁCIÓ és BEJELENTKEZÉS akkor elsőnek a bejelentkezést kell megcsinálni:
@@ -36,5 +36,25 @@ Bejelentkezés GRID:
 
 Már meglévő felhasználós és jelszavas adatbázis elérése és azzal bejelentkezése:
 Be inportáltad az sql-t.
-Vagy te hoztad létre. -> db forge > jobb katt a localhostra > New Database > beirod az adatokat > fent a DATA 
+Adatbázis létrehozása: db forge > jobb katt a localhostra > New Database > beirod az adatokat > fent a DATA 
 > alatta database kiválasztása > pici + jel > beírkálod az adatokat
+
+Bejelemtkezés kódok:
+
+regisztráció oldalra át menni:
+        private void reggomb_Click(object sender, RoutedEventArgs e)
+        {
+            var regWindow = new Regisztráció();
+            regWindow.Show();
+            Close();
+        }
+
+kilépés gomb:
+        private void kilepes_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+🟢🟢🟢2. REGISZTRÁCIÓ🟢🟢🟢
+Létrehozása: (ha ez kell elsőnek akor ezt csináld meg elsőnek és hagyd ki a lépéseket!)
+jobb katt a nevére > Add > Window WPF... > elnevezed
