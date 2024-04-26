@@ -2,11 +2,13 @@ WPF APP.NET FrameWork
 
 ha kell valami gyorsan: ctrl + f és rá keresel!
 mindegyik kódban van hibaüzenet, azokat is kiveheted valamennyire
-🛑🛑🛑1. Bejelentkezés rész!🛑🛑🛑
+🛑🛑🛑1. BEJELENTKEZÉS🛑🛑🛑
 🟢🟢🟢2. REGISZTRÁCIÓ🟢🟢🟢
-🟡🟡🟡3. DG: TÁBLÁZAT KIIRATÁS DATAGRIDBE🟡🟡🟡 DG: DataGrid
+🟡🟡🟡3. DG: TÁBLÁZAT KIIRATÁS DATAGRIDBE🟡🟡🟡
 🟣🟣🟣4. DG: ÚJ ADAT HOZZÁADÁSA A DATAGRIDBE🟣🟣🟣
 🔵🔵🔵5. COMBOBOX (lenyilőfül) KERESŐ🔵🔵🔵
+🩷🩷🩷6. COMBOBOX RÁ KATT, KIJÖN AZ ADAT A DATAGRIDBEN🩷🩷🩷
+🟠🟠🟠6. COMBOBOX RÁ KAT, KIJÖN AZ ADAT EGY TEXTBOXBAN🟠🟠🟠
 
 🛑🛑🛑1. BEJELENTKEZÉS🛑🛑🛑
 🛑Add hozzá a NuGetet (mysql)
@@ -254,6 +256,7 @@ GRID: mik ezek? Uj elem hozzáadása; pld: leves neve(tbox): almaleves(tblock); 
 
 🟣A hozzáadó gombra kattinta:
 string nevValue = nev.Text; //minden adatrol amit hozzá szeretnénk adni arrol kell egy string (ha szöveg) és int (ha szám) value-t
+
 int kaloriaValue = int.Parse(kaloria.Text); //aminek el lett nevezve a textbox ugy nevezd itt el
 string fohozzavaloValue = fohozzavalo.Text;
 string keszitetteValue = keszitette.Text;
@@ -352,48 +355,49 @@ finally
 🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣
 
 🔵🔵🔵5. COMBOBOX (lenyilőfül) KERESŐ🔵🔵🔵
+🔵FELTÖLJÜK a megadott tábla oszlop adataival
+          
+public listasoldal()
+{
+    InitializeComponent();
+    LoadLevesek(); //bele kell rakni
+}
 
-🔵ezzel feltöltjük a megadott sql-el.
-        private void LoadLevesek()
+private void LoadLevesek()
+{
+    string connStr = "server=localhost;user=root;database=vannevesjelszo;password=";
+    MySqlConnection conn = new MySqlConnection(connStr);
+
+    try
+    {
+        conn.Open();
+
+        string sql = "SELECT neve FROM levesek";
+        MySqlCommand cmd = new MySqlCommand(sql, conn);
+        MySqlDataReader rdr = cmd.ExecuteReader();
+        lista.Items.Clear();
+
+        // Adatok hozzáadása a ComboBox-hoz
+        while (rdr.Read())
         {
-            string connStr = "server=localhost;user=root;database=vannevesjelszo;password=";
-            MySqlConnection conn = new MySqlConnection(connStr);
-
-            try
-            {
-                conn.Open();
-
-                string sql = "SELECT neve FROM levesek"; //itt adjuk meg neki pld melyik oszlopot töltse be, az lehet sima vagy egyedi kód
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                MySqlDataReader rdr = cmd.ExecuteReader();
-
-                // Adatok hozzáadása a ComboBox-hoz
-                while (rdr.Read())
-                {
-                    lista.Items.Add(rdr["neve"]);
-                }
-
-                rdr.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Hiba történt az adatok betöltése közben: " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
+            lista.Items.Add(rdr["neve"]);
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Az ablak betöltődésekor hívd meg a LoadLevesek metódust
-            LoadLevesek();
-        }
+        rdr.Close();
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show("Hiba történt az adatok betöltése közben: " + ex.Message);
+    }
+    finally
+    {
+        conn.Close();
+    }
+}
 
-❗Az előző kód javítása egy picit, legyen a combobon egy megjelenő szöveg alapból, mindne kód ujra tesztelése és probald meg hogy egyszer kelljen az sql
-csatlakozás egy xaml kódban és nem 100 milliószor!!!
-Amire rá kattint a felhasználó csak azt hozza ki a datagrid: már csak ez a kettő kell!!!
-Amire rá kattint a felhasználó csak azt hozza ki a textbox: már csak ez a kettő kell!!!❗
+        private void lista_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+// ez csak legyen itt mert hibát fog írni
+        }
 
 🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
