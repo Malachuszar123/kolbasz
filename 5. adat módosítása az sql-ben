@@ -1,1 +1,110 @@
+🔵🔵🔵5. adat módosítása az sql-ben🔵🔵🔵
 
+🔵fentre ezeket alkalmazzuk:
+public partial class adatatiras : Window
+{
+    private string connectionString = "Server=localhost;Database=vannevesjelszo;Uid=root;Pwd=;";
+    public adatatiras()
+    {
+        InitializeComponent();
+        FillComboBox();
+        LoadData();
+    }
+
+🔵a fillcombobox-ot feltötljük:
+private void FillComboBox()
+{
+    try
+    {
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+            string query = "SELECT dnev FROM dolgozok";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                lista.Items.Add(reader["dnev"].ToString());
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show("Hiba történt az adatbázis kapcsolat során: " + ex.Message);
+    }
+}
+
+🔵az átirat gomb kódja:
+try
+{
+    using (MySqlConnection connection = new MySqlConnection(connectionString))
+    {
+        connection.Open();
+        string query = "UPDATE dolgozok SET ";
+        MySqlCommand command = new MySqlCommand();
+
+        if (!string.IsNullOrWhiteSpace(dnev.Text))
+        {
+            query += "dnev = @dnev, ";
+            command.Parameters.AddWithValue("@dnev", dnev.Text);
+        }
+
+        if (!string.IsNullOrWhiteSpace(dszul.Text))
+        {
+            query += "dszul = @dszul, ";
+            command.Parameters.AddWithValue("@dszul", dszul.Text);
+        }
+
+        if (!string.IsNullOrWhiteSpace(dmunk.Text))
+        {
+            query += "dmunk = @dmunk, ";
+            command.Parameters.AddWithValue("@dmunk", dmunk.Text);
+        }
+
+        if (!string.IsNullOrWhiteSpace(dtel.Text))
+        {
+            query += "dtel = @dtel, ";
+            command.Parameters.AddWithValue("@dtel", dtel.Text);
+        }
+
+        // Remove the last comma and space
+        query = query.TrimEnd(',', ' ');
+
+        // Ha nincs egyetlen mező sem kitöltve, akkor ne hajtsa végre a módosítást
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            MessageBox.Show("Nem adott meg módosítandó adatokat.");
+            return;
+        }
+
+        // Ha nincs egyetlen mező sem kitöltve, akkor ne hajtsa végre a módosítást
+        if (lista.SelectedItem == null)
+        {
+            MessageBox.Show("Nincs kiválasztva dolgozó.");
+            return;
+        }
+
+        // Hozzáadja a WHERE feltételt a nevhez
+        query += " WHERE dnev = @selectedName";
+        command.Parameters.AddWithValue("@selectedName", lista.SelectedItem.ToString());
+
+        command.CommandText = query;
+        command.Connection = connection;
+
+        int rowsAffected = command.ExecuteNonQuery();
+        if (rowsAffected > 0)
+        {
+            MessageBox.Show("Adatok sikeresen módosítva.");
+        }
+        else
+        {
+            MessageBox.Show("Nem sikerült módosítani az adatokat.");
+        }
+    }
+}
+catch (Exception ex)
+{
+    MessageBox.Show("Hiba történt az adatok módosítása során: " + ex.Message);
+}
+
+🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
