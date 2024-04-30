@@ -1,0 +1,57 @@
+🟡🟡🟡3. DG: TÁBLÁZAT KIIRATÁS DATAGRIDBE🟡🟡🟡
+
+🟡GRID:
+<DataGrid x:Name="tablazat" AutoGenerateColumns="False" IsReadOnly="True" Margin="98,90,190,89" SelectionChanged="tablazat_SelectionChanged">
+    <DataGrid.Columns>
+        <DataGridTextColumn Header="Neve" Binding="{Binding neve}" Width="*"/> //header: ami az első oszlopba legyen kiirva mint oszlop név, neve: az adatbázisból melyik oszlop legyen oda berakva
+        <DataGridTextColumn Header="Kaloria" Binding="{Binding kaloria}" Width="*"/> //Width="*" a táblázatban elosztja normálisan az oszlopokat
+    </DataGrid.Columns>
+</DataGrid>
+
+🟡táblázatos kód hogy kiirja az egyénileg kért táblázatot sql segitségével:
+
+🟡TÁBLÁZAT KIIRATÁSA: 3 részből áll; DATAGRID-ben
+🟡1. kód részlet:
+        public Program()
+        {
+            InitializeComponent();
+            LoadData(); //kell fentre egy ilyen
+        }
+
+🟡2. kód részlet: //kell a loaddata()-hoz egy kis adatbázis össze kötés, EGÉSZET kimásolni!
+ private void LoadData()
+ {
+     string connStr = "server=localhost;user=root;database=vannevesjelszo;password=";
+     MySqlConnection conn = new MySqlConnection(connStr);
+
+     try
+     {
+         conn.Open();
+
+         string sql = "SELECT * FROM levesek"; //itt add meg hogy mit jelítsen meg a táblázatba és vele együtt módosítsd a datagridet is.
+         MySqlCommand cmd = new MySqlCommand(sql, conn);
+         MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+         DataTable dt = new DataTable();
+         da.Fill(dt);
+
+         tablazat.ItemsSource = dt.DefaultView;
+     }
+     catch (Exception ex)
+     {
+         MessageBox.Show(ex.ToString());
+     }
+     finally
+     {
+         conn.Close();
+     }
+ }
+
+🟡3. kód részlet
+//ez az amikor a datagridre rá kattintasz 2x. itt kell legyen, mert ha nincs hibát írhat. Ide nem kell írni semmitse
+        private void tablazat_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡
