@@ -21,30 +21,18 @@
 🟡2. kód részlet: //kell a loaddata()-hoz egy kis adatbázis össze kötés, EGÉSZET kimásolni!
  private void LoadData()
  {
-     string connStr = "server=localhost;user=root;database=vannevesjelszo;password=";
-     MySqlConnection conn = new MySqlConnection(connStr);
-
      try
      {
-         conn.Open();
-
-         string sql = "SELECT * FROM levesek"; //itt add meg hogy mit jelítsen meg a táblázatba és vele együtt módosítsd a datagridet is.
-         MySqlCommand cmd = new MySqlCommand(sql, conn);
-         MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-         DataTable dt = new DataTable();
-         da.Fill(dt);
-
-         tablazat.ItemsSource = dt.DefaultView;
+         using (MySqlConnection connection = new MySqlConnection(connectionString))
+         using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM dolgozok", connection))
+         using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+         {
+             DataTable dt = new DataTable();
+             da.Fill(dt);
+             tablazat.ItemsSource = dt.DefaultView;
+         }
      }
-     catch (Exception ex)
-     {
-         MessageBox.Show(ex.ToString());
-     }
-     finally
-     {
-         conn.Close();
-     }
+     catch { }
  }
 
 🟡3. kód részlet
