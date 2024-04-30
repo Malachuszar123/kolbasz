@@ -2,9 +2,10 @@
 
 🔵fentre ezeket alkalmazzuk:
 public partial class adatatiras : Window
-{
+{ //ez alá be kell rakni az sql csatlakozást
     private string connectionString = "Server=localhost;Database=vannevesjelszo;Uid=root;Pwd=;";
-    public adatatiras()
+
+🔵még add hozzá ezeket:
     {
         InitializeComponent();
         FillComboBox();
