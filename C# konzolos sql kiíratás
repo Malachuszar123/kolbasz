@@ -64,8 +64,8 @@ namespace cscsyc
             {
                 dbConn.Close();
             }
-        }
 //idáig /\
+        }
     }
 }
 
