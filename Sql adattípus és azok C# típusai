@@ -1,0 +1,14 @@
+SQL Adatbázis dolgok és annak parancsai:
+
+Íme néhány gyakran használt adattípus SQL-ben és azok megfelelő C# típusai:
+
+INT - egész számokhoz: int
+BIGINT - nagy egész számokhoz: long
+FLOAT - tizedespontos számokhoz: float vagy double
+DECIMAL - pontos számokhoz: decimal
+VARCHAR - változó hosszúságú szövegekhez: string
+CHAR - fix hosszúságú szövegekhez: string
+DATE - dátumhoz (pl. YYYY-MM-DD formátumban): DateTime
+TIME - időponthoz (pl. HH:MM:SS formátumban): TimeSpan
+DATETIME - dátum és időpont kombinációja: DateTime
+BOOLEAN - logikai értékekhez: bool
