@@ -1,0 +1,117 @@
+🟣🟣🟣4. DG: ÚJ ADAT HOZZÁADÁSA A DATAGRIDBE🟣🟣🟣
+
+🟣ott van már az elkészített és betöltött adatok a DataGridbe. (hogyan kell? itt van: 🟡🟡🟡3. TÁBLÁZAT KIIRATÁS DATAGRIDBE🟡🟡🟡)
+
+🟣FONTOS HOGY NEVEZD EL MEGFELELŐEN A GOMBOKAT MEG MINDEN ISTEN NYILÁT.
+GRID: mik ezek? Uj elem hozzáadása; pld: leves neve(tbox): almaleves(tblock); ezek sokasága de magadnak is megtudod csinálni!!!
+ <Button x:Name="hozzaad" Content="Hozzáad" HorizontalAlignment="Left" Margin="570,295,0,0" VerticalAlignment="Top" FontSize="20" Click="Button_Click_1"/>
+ <TextBox x:Name="nev" HorizontalAlignment="Left" Margin="541,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+ <TextBox x:Name="kaloria" HorizontalAlignment="Left" Margin="541,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+ <TextBox x:Name="fohozzavalo" HorizontalAlignment="Left" Margin="541,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+ <TextBox x:Name="keszitette" HorizontalAlignment="Left" Margin="541,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+ <TextBox x:Name="osszlevesek" HorizontalAlignment="Left" Margin="541,228,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+ <TextBlock HorizontalAlignment="Left" Margin="541,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Adj saját adatot"/></TextBlock>
+ <TextBlock HorizontalAlignment="Left" Margin="405,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Név:"/></TextBlock>
+ <TextBlock HorizontalAlignment="Left" Margin="405,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Kalória:"/></TextBlock>
+ <TextBlock HorizontalAlignment="Left" Margin="405,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Fő hozzávaló:"/></TextBlock>
+ <TextBlock HorizontalAlignment="Left" Margin="405,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Készítette:"/></TextBlock>
+ <TextBlock HorizontalAlignment="Left" Margin="400,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Össz levesek:"/></TextBlock>
+
+🟣A hozzáadó gombra kattinta:
+string nevValue = nev.Text; //minden adatrol amit hozzá szeretnénk adni arrol kell egy string (ha szöveg) és int (ha szám) value-t
+
+int kaloriaValue = int.Parse(kaloria.Text); //aminek el lett nevezve a textbox ugy nevezd itt el
+string fohozzavaloValue = fohozzavalo.Text;
+string keszitetteValue = keszitette.Text;
+int osszlevesekValue = int.Parse(osszlevesek.Text);
+
+string connStr = "server=localhost;user=root;database=vannevesjelszo;password="; //sima csatlakozás megint...
+MySqlConnection conn = new MySqlConnection(connStr);
+
+try
+{
+    conn.Open();
+
+    // SQL parancs előkészítése az adatok beszúrásához //itt ez a hosszu ide az kell ami táblázatban az első sor nevei: pld fohozzavalo és @-cal elmondjuk melyik aza textbox amelyikbe írom a szöveget. tehát @fohozzavalo
+    string sql = "INSERT INTO levesek (neve, kaloria, fohozzavalo, keszitette, osszlevesek) VALUES (@nev, @kaloria, @fohozzavalo, @keszitette, @osszlevesek)";
+    MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+    // Paraméterek hozzáadása a parancshoz
+    cmd.Parameters.AddWithValue("@nev", nevValue);
+    cmd.Parameters.AddWithValue("@kaloria", kaloriaValue);
+    cmd.Parameters.AddWithValue("@fohozzavalo", fohozzavaloValue);
+    cmd.Parameters.AddWithValue("@keszitette", keszitetteValue);
+    cmd.Parameters.AddWithValue("@osszlevesek", osszlevesekValue);
+
+    // Parancs végrehajtása
+    cmd.ExecuteNonQuery();
+
+    // Adatok újratöltése a DataGrid-be
+    LoadData();
+}
+catch (Exception ex)
+{
+    MessageBox.Show("Hiba történt az adatok mentése közben: " + ex.Message);
+}
+finally
+{
+    conn.Close();
+}
+
+🟣Ha szeretnénk azt, hogy ellenőrizve legyen hogy minden ki van-e töltve és biztos szám került-e oda ahova kelett:
+
+     // Ellenőrizzük, hogy minden mező ki van-e töltve
+     if (string.IsNullOrWhiteSpace(nev.Text) || string.IsNullOrWhiteSpace(kaloria.Text) ||
+         string.IsNullOrWhiteSpace(fohozzavalo.Text) || string.IsNullOrWhiteSpace(keszitette.Text) ||
+         string.IsNullOrWhiteSpace(osszlevesek.Text))
+     {
+         MessageBox.Show("Minden mezőt ki kell tölteni.");
+         return;
+     }
+
+     // Ellenőrizzük, hogy a kalória és az összlevesek mezők értékei számként értelmezhetők-e
+     int kaloriaValue, osszlevesekValue;
+     if (!int.TryParse(kaloria.Text, out kaloriaValue) || !int.TryParse(osszlevesek.Text, out osszlevesekValue))
+     {
+         MessageBox.Show("A kalória és az összlevesek mezők csak számokat tartalmazhatnak.");
+         return;
+     }
+
+     string nevValue = nev.Text;
+     string fohozzavaloValue = fohozzavalo.Text;
+     string keszitetteValue = keszitette.Text;
+
+     string connStr = "server=localhost;user=root;database=vannevesjelszo;password=";
+     MySqlConnection conn = new MySqlConnection(connStr);
+
+     try
+     {
+         conn.Open();
+
+         // SQL parancs előkészítése az adatok beszúrásához
+         string sql = "INSERT INTO levesek (neve, kaloria, fohozzavalo, keszitette, osszlevesek) VALUES (@nev, @kaloria, @fohozzavalo, @keszitette, @osszlevesek)";
+         MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+         // Paraméterek hozzáadása a parancshoz
+         cmd.Parameters.AddWithValue("@nev", nevValue);
+         cmd.Parameters.AddWithValue("@kaloria", kaloriaValue);
+         cmd.Parameters.AddWithValue("@fohozzavalo", fohozzavaloValue);
+         cmd.Parameters.AddWithValue("@keszitette", keszitetteValue);
+         cmd.Parameters.AddWithValue("@osszlevesek", osszlevesekValue);
+
+         // Parancs végrehajtása
+         cmd.ExecuteNonQuery();
+
+         // Adatok újratöltése a DataGrid-be
+         LoadData();
+     }
+     catch (Exception ex)
+     {
+         MessageBox.Show("Hiba történt az adatok mentése közben: " + ex.Message);
+     }
+     finally
+     {
+         conn.Close();
+     }
+
+🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣
