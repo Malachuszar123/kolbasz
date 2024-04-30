@@ -1,0 +1,78 @@
+🟢🟢🟢2. REGISZTRÁCIÓ🟢🟢🟢
+🟢Létrehozása: (ha ez kell elsőnek akor ezt csináld meg elsőnek és hagyd ki a lépéseket!)
+jobb katt a nevére > Add > Window WPF... > elnevezed
+
+🟢GRID: 450x450
+        <TextBlock HorizontalAlignment="Left" Margin="32,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Felhasználónév:"/></TextBlock>
+        <TextBox x:Name="nev" HorizontalAlignment="Left" Margin="207,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="32,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Jelszó:"/></TextBlock>
+        <TextBox x:Name="jel" HorizontalAlignment="Left" Margin="207,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36"><Run Language="hu-hu" Text="Regisztráció"/></TextBlock>
+        <Button x:Name="reggomb" Content="Regisztráció" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Button x:Name="bejgomb" Content="Inkább bejelentkezek" HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Button x:Name="kilepes" Content="Kilépés" HorizontalAlignment="Center" Margin="0,355,0,0" VerticalAlignment="Top" FontSize="20"/>
+
+🟢regisztrációs gomb:
+ private void reggomb_Click(object sender, RoutedEventArgs e)
+ {
+     string felhasznalonev = nev.Text;
+     string jelszo = jel.Text;
+
+     string connectionString = "Server=localhost;Database=vannevesjelszo;Uid=root;Pwd=;";
+     MySqlConnection connection = new MySqlConnection(connectionString);
+
+     try
+         {
+         connection.Open(); 
+         // Ellenőrizzük, hogy a felhasználónév már létezik-e az adatbázisban
+         string checkQuery = "SELECT COUNT(*) FROM felhasznalok WHERE nev=@nev";
+         MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+         checkCommand.Parameters.AddWithValue("@nev", felhasznalonev); //a nev oszlopban van-e már olyan felhasználó ellenőrzése
+         int userCount = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+         if (userCount > 0)
+         {
+             MessageBox.Show("A felhasználónév már létezik. Kérlek, válassz másikat!");
+             return;
+         }
+
+         // Ha a felhasználónév még nem létezik, beszúrjuk az adatbázisba
+         string insertQuery = "INSERT INTO felhasznalok (nev, jelszo) VALUES (@nev, @jelszo)"; //nev és jelszo az oszlopok nevei
+         MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+         insertCommand.Parameters.AddWithValue("@nev", felhasznalonev); //a @nev az a neve az oszlopnak amiben a felhasználó nevek vannak //ugyan így ha más adat kell akkor más oszlopnevet írsz ide meg @ után is
+         insertCommand.Parameters.AddWithValue("@jelszo", jelszo); // ugyan úgy ez az oszlop neve ahol a jelszavak vannak; //ugyan így ha más adat kell akkor más oszlopnevet írsz ide meg
+         int rowsAffected = insertCommand.ExecuteNonQuery();
+
+         if (rowsAffected > 0)
+         {
+             MessageBox.Show("Sikeres regisztráció!"); //át visz a bejelentkezésre
+             var regWindow = new MainWindow();
+             regWindow.Show();
+             Close();
+         }
+         else
+         {
+             MessageBox.Show("A regisztráció során hiba történt. Kérlek, próbáld újra!");
+         }
+         }
+         catch (Exception ex)
+         {
+             MessageBox.Show("Hiba történt az adatbázis kapcsolódásakor: " + ex.Message);
+         }
+         finally
+         {
+             if (connection.State == ConnectionState.Open)
+                 connection.Close();
+         }
+ }
+
+🟢Átváltás a bejelentkezésre:
+🟢inkább a bejelentkezésre vissza váltás gomb
+        private void bejgomb_Click(object sender, RoutedEventArgs e)
+        {
+            var regWindow = new MainWindow();
+            regWindow.Show();
+            Close();
+        }
+
+🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢
