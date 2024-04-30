@@ -73,7 +73,7 @@ namespace cscsyc
 
 ha pld több dolgot kell egyszerre kiiratnia nem csak egyet, az összes munkahelyi részleg létszáma kell, de csak egyet ír ki? ilyenkor használd ezt!
 
-foreach (var (kerdesek, valaszok) in queries)
+foreach (var (kerdesek, valaszok) in lekerdezesek)
 {
     Console.WriteLine($"{kerdesek}:"); // Kérdés kiírása először
 
