@@ -3,5 +3,6 @@
   - pizza
     - backend
       - futarok.php //ez az oldal a BACKEND ahhol a linkben ? van pld: http://localhost/pizza/index.php?futarok
+      - rendelesek.php //másik pld: http://localhost/pizza/index.php?rendelesek
     - frontend
       - index.php //ez az index oldal a FRONTEND
