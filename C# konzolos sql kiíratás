@@ -40,7 +40,7 @@ namespace ConsoleApp1
                     }
                 }
 
-                // 1. feladat: Hány db pizza van összesen?
+                // 3. feladat: Hány db pizza van összesen?
                 string lekerdezes3 = "SELECT\r\n  COUNT(rendeles.idopont) AS dbpizzak\r\nFROM rendeles\r\n  INNER JOIN vevo\r\n    ON rendeles.vazon = vevo.vazon\r\nWHERE vevo.vnev = 'Kuka'\r\nAND rendeles.idopont BETWEEN '2023.01.01.' AND '2023.12.31.'";
                 MySqlCommand database3 = new MySqlCommand(lekerdezes3, dbConn);
                 Console.WriteLine("\n3. feladat: Hány db pizzát rendelt Kuka 2013-ban?");
