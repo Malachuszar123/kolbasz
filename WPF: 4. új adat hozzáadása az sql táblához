@@ -48,6 +48,8 @@ try
 
     // Adatok újratöltése a DataGrid-be
     LoadData();
+
+//dgBefizetesek.Items.Refresh(); írd át a datagrid nevét és refreshelni fogja amikor rá kattintasz a gombra
 }
 catch (Exception ex)
 {
