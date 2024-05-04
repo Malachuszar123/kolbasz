@@ -1,110 +1,55 @@
-----------
-teljes pálda:
-Importád be a "dolgozok.sql" script-et (a script az csak egy megnevezés de simán be importálod az sql-t)
-Készíts http://localhost/index.php?dolgozok végpontot a levesek adatainak a lekérdezésére.
-Készíts weblapot, amely a végpont felhasználásával táblázat szerűen megjeleníti az adatokat. 
+KÉSZÍTS KONZOLOS ALKALMAZÁST! -erre a feladat tipusra koncentrálva
 
-////////////////////// -Amikor ilyen konzolos feladat van oda írva!!!!! (a kód erre vonatkozik)
-KÉSZÍTS KONZOLOS ALKALMAZÁST, 
-amely kiírja a dolgozók számát, 
-a legmagasabb keresetű dolgozó nevét 
-hányan dolgoznak az egyes részlegeken
-kilistázza az "asztalosműhely"-ben dolgozók nevét
-////////////////////
+🐈‍⬛1. lépés:
+NuGets mysql hozzáadása
 
-Készíts grafikus felületű alkalmazást új dolgozó felvitelére
-----------
+🐈‍⬛2. lépés: a sor hozzáadása
+using MySql.Data.MySqlClient;
 
-//1. LÉPSÉS: NuGets mysql hozzáadása
-using MySql.Data.MySqlClient; // 2. LÉPÉS
-
-namespace cscsyc
+namespace ConsoleApp1
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            //innen kell kezdeni
-            string connString = "server=localhost; user=root; database=pizza; password=;";
+            string connString = "server=localhost; user=root; database=pizza; password=;"; //adatbázis hozzákapcsolása
             MySqlConnection dbConn = new MySqlConnection(connString);
 
             try
             {
                 dbConn.Open();
-                Console.WriteLine("Sikeres adatbázis kapcsolódás!");
 
-                (string kerdesek, string valaszok)[] lekerdezesek =
+                // 1. feladat: Hány db pizza van összesen?
+                string lekerdezes1 = "SELECT COUNT(pnev) FROM pizza";
+                MySqlCommand database = new MySqlCommand(lekerdezes1, dbConn);
+                Console.WriteLine("1. feladat: Hány db pizza van összesen?");
+                Console.WriteLine($"{database.ExecuteScalar()}");
+
+                // 2. feladat: Pizzák neve és árai?
+                string lekerdezes2 = "SELECT pnev, par FROM pizza";
+                MySqlCommand database2 = new MySqlCommand(lekerdezes2, dbConn);
+                Console.WriteLine("\n2. feladat: Pizzák neve és árai?");
+                using (var reader = database2.ExecuteReader())
                 {
-                    ("1. feladat: krédése...",
-                    "sql"),
-
-                    ("2. feladat: Hány pizzát rendelt kuka 2023-ban",
-                    "sql"),
-
-                    ("kérdés",
-                    "sql"),
-
-                    ("kérdés",
-                    "sql"),
-                };
-
-                foreach (var (kerdesek, valaszok) in lekerdezesek)
-                {
-                    MySqlCommand command = new MySqlCommand(valaszok, dbConn);
-                    using (var reader = command.ExecuteReader()) //itt hibát írhat, hogyha véletlen roszz az adatbázis
+                    while (reader.Read()) //több oszlopos kiiratás
                     {
-                        if (reader.Read())
-                            Console.WriteLine($"{kerdesek}: {reader.GetValue(0)}");
+                        string neve = reader.GetString(0);
+                        int ara = reader.GetInt32(1);
+                        Console.WriteLine($"{neve}: {ara} Ft");
                     }
-                    // Üres sor kiíratása minden kérdés után
-                    Console.WriteLine();
                 }
+
+                // 1. feladat: Hány db pizza van összesen?
+                string lekerdezes3 = "SELECT\r\n  COUNT(rendeles.idopont) AS dbpizzak\r\nFROM rendeles\r\n  INNER JOIN vevo\r\n    ON rendeles.vazon = vevo.vazon\r\nWHERE vevo.vnev = 'Kuka'\r\nAND rendeles.idopont BETWEEN '2023.01.01.' AND '2023.12.31.'";
+                MySqlCommand database3 = new MySqlCommand(lekerdezes3, dbConn);
+                Console.WriteLine("\n3. feladat: Hány db pizzát rendelt Kuka 2013-ban?");
+                Console.WriteLine($"{database3.ExecuteScalar()}");
             }
             finally
             {
                 dbConn.Close();
             }
-//idáig /\
+            Console.ReadLine();
         }
     }
 }
-
------------------------------------------------------------------------------------------------------------------------------------------------------
-
-ha pld több dolgot kell egyszerre kiiratnia nem csak egyet, az összes munkahelyi részleg létszáma kell, de csak egyet ír ki? ilyenkor használd ezt!
-
-foreach (var (kerdesek, valaszok) in lekerdezesek)
-{
-    Console.WriteLine($"{kerdesek}:"); // Kérdés kiírása először
-
-    MySqlCommand command = new MySqlCommand(valaszok, dbConn);
-    using (var reader = command.ExecuteReader())  //itt akkor lehet hiba ha nem csináltad még meg a kérdésekre a választ.. ott hagytad azt sql szöveget
-    {
-        while (reader.Read())
-        {
-            if (kerdesek.Contains("krédése...")) //a : pont utáni szöveget rakd be ide!!!
-            {
-                string reszleg = reader.GetString(0);
-                int dolgozokSzama = reader.GetInt32(1);
-                Console.WriteLine($"Részleg: {reszleg}; dolgozók: {dolgozokSzama}");
-            }
-            else
-            {
-                Console.WriteLine($"{reader.GetValue(0)}"); //egyszeri válaszok esete, de ugy is sorba rakja a feladatokat!!!
-            }
-        }
-    }
-    Console.WriteLine(); // Üres sor kiírása a következő kérdés előtt
-}
-
-és hogyha megint kéne ilyen több kiiratós????:
-egyben: egy másik else if és alá az egyszeres válaszolósak
-            else if (kerdesek.Contains("'asztalos' műhelyben dolgozók nevei")) //ha kell valami plusz több válaszos akkor ezt másold ki és megint else if lesz!!!!!
-            {
-                string nevek = reader.GetString(0); //minél több adat kell annál több string és ahol nő a szám is (1)...(2) //ha szöveg akk GetString, ha szám akk elejére int és GetInt32; string/int után az oszlop elnevezése legyen ott pld oszlop neve: nevek akkor: string nevek
-                Console.WriteLine($"Asztalos műhyel dolgozói: {nevek}");
-            } //ez alá mehet is a bemásolás ha kell több több válaszos
-            else
-            {
-                Console.WriteLine($"{reader.GetValue(0)}"); //egyszeres válaszok kiiráa, nyugi sorba fogja a válaszokat kiirni!
-            }
