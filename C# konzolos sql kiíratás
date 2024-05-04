@@ -1,4 +1,4 @@
-KÉSZÍTS KONZOLOS ALKALMAZÁST! -erre a feladat tipusra koncentrálva
+🐈‍⬛🐈‍⬛🐈‍⬛KÉSZÍTS KONZOLOS ALKALMAZÁST! -erre a feladat tipusra koncentrálva🐈‍⬛🐈‍⬛🐈‍⬛
 
 🐈‍⬛1. lépés:
 NuGets mysql hozzáadása
@@ -6,6 +6,7 @@ NuGets mysql hozzáadása
 🐈‍⬛2. lépés: a sor hozzáadása
 using MySql.Data.MySqlClient;
 
+🐈‍⬛3. lépés: kód beillesztése és átírása
 namespace ConsoleApp1
 {
     internal class Program
@@ -53,3 +54,5 @@ namespace ConsoleApp1
         }
     }
 }
+
+🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛
