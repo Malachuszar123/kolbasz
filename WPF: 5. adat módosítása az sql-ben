@@ -64,7 +64,7 @@ private void atirat_Click(object sender, RoutedEventArgs e)
 
             if (!string.IsNullOrWhiteSpace(nev.Text))
             {
-                query += "neve = @nev, "; //db oszlop neve = @texbbox neve 
+                query += "neve = @nev, "; //db oszlop neve = @texbbox neve... elvileg
                 command.Parameters.AddWithValue("@nev", nev.Text);
             }
 
