@@ -1,6 +1,6 @@
-htdocs-api-index.php
+🐖mappa: htdocs-api-index.php
 
-index-php:
+🐖index-php:
 
 <?php
 header('Content-Type: application/json; charset=utf-8');
@@ -47,7 +47,7 @@ switch($params[0]){
         break;
 }
 
-databaseconnect.php:
+🐖databaseconnect.php:
 
 <?php
 $conn = new mysqli("localhost", "root", "", "etelek");
@@ -58,7 +58,7 @@ if ($conn -> errno) {
 // $conn -> set_charset('utf-8');
 
 
-VS Code:
+🐖VS Code:
 negyzetek: thunder client le kell tölteni
 new request
 -POST: http://localhost/api/index.php?fogyasztas
