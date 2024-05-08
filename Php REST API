@@ -1,8 +1,36 @@
-🐕Mappák elrendezése:
-- htdocs
-  - pizza
-    - backend
-      - futarok.php //ez az oldal a BACKEND ahhol a linkben ? van pld: http://localhost/pizza/index.php?futarok
-      - rendelesek.php //másik pld: http://localhost/pizza/index.php?rendelesek
-    - frontend
-      - index.php //ez az index oldal a FRONTEND
+htdocs-api-index.php
+
+index-php:
+
+<?php
+header('Content-Type: application/json; charset=utf-8');
+header('Acces-Control-Allow-Origin: *');
+require_once 'databaseconnect.php';
+
+$params=explode('/',$_SERVER['QUERY_STRING']);
+
+switch($params[0]){
+    case "levesek":
+        $request = $conn -> query("SELECT * FROM levesek");
+        $levesek = array();
+        while ($row = $request->fetch_all()){
+            $levesek[] = $row;
+        }
+        echo json_encode($levesek);
+        break;
+    default :
+        http_response_code("401");
+        break;
+}
+
+databaseconnect.php:
+
+<?php
+$conn = new mysqli("localhost", "root", "", "etelek");
+if ($conn -> errno) {
+    echo 'Adatbázis hiba';
+    die();
+}
+// $conn -> set_charset('utf-8');
+
+
