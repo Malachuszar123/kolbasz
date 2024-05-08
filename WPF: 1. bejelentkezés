@@ -1,9 +1,12 @@
 🔴🔴🔴1. BEJELENTKEZÉS🔴🔴🔴
-🔴Add hozzá a NuGetet (mysql)
-🔴Az elsőnek létrehozott oldal jelenik meg elsőnek.
-🔴Ha kell egy REGISZTRÁCIÓ és BEJELENTKEZÉS akkor ELSŐNEK A BEJELENTKEZÉST kell megcsinálni:
 
-🔴GRID 450x450:
+🔴1.
+Add hozzá a NuGetet (mysql)
+
+🔴Ha kell egy REGISZTRÁCIÓ és BEJELENTKEZÉS akkor ELSŐNEK A BEJELENTKEZÉST kell megcsinálni:🔴
+
+🔴2.
+GRID 450x450:
  <TextBlock HorizontalAlignment="Left" Margin="32,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Felhasználónév:"/></TextBlock>
  <TextBox x:Name="nev" HorizontalAlignment="Left" Margin="207,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" FontSize="20"/>
  <TextBlock HorizontalAlignment="Left" Margin="32,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Jelszó:"/></TextBlock>
@@ -13,8 +16,6 @@
  <Button x:Name="reggomb" Content="Regisztráció" HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" FontSize="20"/>
  <Button x:Name="kilepes" Content="Kilépés" HorizontalAlignment="Center" Margin="0,355,0,0" VerticalAlignment="Top" FontSize="20"/>
 
-🔴Már meglévő felhasználós és jelszavas adatbázis elérése és azzal bejelentkezése:
-🔴Be inportáltad az sql-t és kész.
 🔴Adatbázis létrehozása: 
 🔴db forge > jobb katt a localhostra > New Database > beirod az adatokat > fent a DATA 
 > alatta database kiválasztása > pici + jel > beírkálod az adatokat
@@ -23,7 +24,8 @@
 🔴Fentre írd fel: using MySql.Data.MySqlClient;
 🔴Bejelentkezés az adatbázisból:
 
-🔴bejelentkezés gomb:
+🔴3.
+bejelentkezés gomb:
         private void bejgomb_Click(object sender, RoutedEventArgs e)
 {
     string felhasznalonev = nev.Text;
@@ -69,7 +71,8 @@
     }
 }
 
-🔴regisztráció oldalra át menni:
+🔴4.
+regisztráció oldalra át menni:
         private void reggomb_Click(object sender, RoutedEventArgs e)
         {
             var regWindow = new Regisztráció();
