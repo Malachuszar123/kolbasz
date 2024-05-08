@@ -1,4 +1,4 @@
-🐖mappa: htdocs-api-index.php
+🐖mappa: htdocs > api > index.php
 
 🐖index-php:
 
@@ -63,7 +63,7 @@ mappa: htdocs-api-frontend-index.html
 negyzetek: thunder client le kell tölteni
 new request
 -POST: http://localhost/api/index.php?fogyasztas
-body: 
+body: valami
 
 
 🐖frontend mappa:
