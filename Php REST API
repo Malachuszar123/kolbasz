@@ -1,6 +1,16 @@
-🐖mappa: htdocs > api > index.php
+🐖mappa:
+-htdocs mappa:
+    -api mappa:
+        >index.php (1.)
+        >databaseconnect.php (2.)
+        -frontend mappa:
+            >index.html (3.)
+            >levesek.css (4.)
+            >levesek.js (5.)
+    
 
-🐖index-php:
+🐖1.
+index-php:
 
 <?php
 header('Content-Type: application/json; charset=utf-8');
@@ -47,7 +57,8 @@ switch($params[0]){
         break;
 }
 
-🐖databaseconnect.php:
+🐖2.
+databaseconnect.php:
 
 <?php
 $conn = new mysqli("localhost", "root", "", "etelek");
@@ -57,20 +68,22 @@ if ($conn -> errno) {
 }
 // $conn -> set_charset('utf-8');
 
-
-🐖VS Code:
-mappa: htdocs-api-frontend-index.html
+(((🐖🐖🐖Melléklek... nem értettem
+VS Code:
 negyzetek: thunder client le kell tölteni
 new request
 -POST: http://localhost/api/index.php?fogyasztas
 body: valami
-
+🐖🐖🐖)))
 
 🐖frontend mappa:
-index.html: https://cdnjs.com/libraries/bootstrap
-a bunde min js ÉS bootstrap min css a head-ba
 
-🐖index.html:
+
+🐖3.
+index.html:
+ezeket használd:
+https://cdnjs.com/libraries/bootstrap
+a bunde.min.js ÉS bootstrap.min.css a head-be!!!
 
 <!DOCTYPE html>
 <html lang="hu">
@@ -100,7 +113,8 @@ a bunde min js ÉS bootstrap min css a head-ba
 </body>
 </html>
 
-🐖levesek.js:
+🐖4.
+levesek.js:
 
 const apiurl = "http://localhost/api/index.php?levesek";
 
@@ -130,7 +144,8 @@ document.addEventListener("DOMContentLoaded", function () {
     getLevesek();
 });
 
-🐖levesek.css
+🐖5.
+levesek.css
 
 .card{
     margin: 10px;
