@@ -130,3 +130,12 @@ document.addEventListener("DOMContentLoaded", function () {
     getLevesek();
 });
 
+🐖levesek.css
+
+.card{
+    margin: 10px;
+    padding: 10px;
+    border: 3px solid rgb(0, 38, 255);
+    background-color: rgba(21, 255, 0, 0.445);
+    box-shadow: 0 4px 10px rgba(0, 94, 13, 0.829);
+}
