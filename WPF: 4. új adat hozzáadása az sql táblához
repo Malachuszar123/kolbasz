@@ -18,46 +18,48 @@ GRID: mik ezek? Uj elem hozzáadása; pld: leves neve(tbox): almaleves(tblock); 
  <TextBlock HorizontalAlignment="Left" Margin="400,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Össz levesek:"/></TextBlock>
 
 🟣A hozzáadó gombra kattinta:
-string nevValue = nev.Text; //minden adatrol amit hozzá szeretnénk adni arrol kell egy string (ha szöveg) és int (ha szám) value-t
-
-int kaloriaValue = int.Parse(kaloria.Text); //aminek el lett nevezve a textbox ugy nevezd itt el
-string fohozzavaloValue = fohozzavalo.Text;
-string keszitetteValue = keszitette.Text;
-int osszlevesekValue = int.Parse(osszlevesek.Text);
-
-string connStr = "server=localhost;user=root;database=vannevesjelszo;password="; //sima csatlakozás megint...
-MySqlConnection conn = new MySqlConnection(connStr);
-
-try
+private void Button_Click_1(object sender, RoutedEventArgs e)
 {
-    conn.Open();
+    string nevValue = nev.Text;
+    int kaloriaValue = int.Parse(kaloria.Text); //aminek el lett nevezve a textbox ugy nevezd itt el
+    string fohozzavaloValue = fohozzavalo.Text;
+    string keszitetteValue = keszitette.Text;
+    int osszlevesekValue = int.Parse(osszlevesek.Text);
 
-    // SQL parancs előkészítése az adatok beszúrásához //itt ez a hosszu ide az kell ami táblázatban az első sor nevei: pld fohozzavalo és @-cal elmondjuk melyik aza textbox amelyikbe írom a szöveget. tehát @fohozzavalo
-    string sql = "INSERT INTO levesek (neve, kaloria, fohozzavalo, keszitette, osszlevesek) VALUES (@nev, @kaloria, @fohozzavalo, @keszitette, @osszlevesek)";
-    MySqlCommand cmd = new MySqlCommand(sql, conn);
+    string connStr = "server=localhost;user=root;database=vannevesjelszo;password="; //sima csatlakozás megint...
+    MySqlConnection conn = new MySqlConnection(connStr);
 
-    // Paraméterek hozzáadása a parancshoz
-    cmd.Parameters.AddWithValue("@nev", nevValue);
-    cmd.Parameters.AddWithValue("@kaloria", kaloriaValue);
-    cmd.Parameters.AddWithValue("@fohozzavalo", fohozzavaloValue);
-    cmd.Parameters.AddWithValue("@keszitette", keszitetteValue);
-    cmd.Parameters.AddWithValue("@osszlevesek", osszlevesekValue);
+    try
+    {
+        conn.Open();
 
-    // Parancs végrehajtása
-    cmd.ExecuteNonQuery();
+        // SQL parancs előkészítése az adatok beszúrásához //itt ez a hosszu ide az kell ami táblázatban az első sor nevei: pld fohozzavalo és @-cal elmondjuk melyik aza textbox amelyikbe írom a szöveget. tehát @fohozzavalo
+        string sql = "INSERT INTO levesek (neve, kaloria, fohozzavalo, keszitette, osszlevesek) VALUES (@nev, @kaloria, @fohozzavalo, @keszitette, @osszlevesek)";
+        MySqlCommand cmd = new MySqlCommand(sql, conn);
 
-    // Adatok újratöltése a DataGrid-be
-    LoadData();
+        // Paraméterek hozzáadása a parancshoz
+        cmd.Parameters.AddWithValue("@nev", nevValue);
+        cmd.Parameters.AddWithValue("@kaloria", kaloriaValue);
+        cmd.Parameters.AddWithValue("@fohozzavalo", fohozzavaloValue);
+        cmd.Parameters.AddWithValue("@keszitette", keszitetteValue);
+        cmd.Parameters.AddWithValue("@osszlevesek", osszlevesekValue);
 
-//dgBefizetesek.Items.Refresh(); írd át a datagrid nevét és refreshelni fogja amikor rá kattintasz a gombra
-}
-catch (Exception ex)
-{
-    MessageBox.Show("Hiba történt az adatok mentése közben: " + ex.Message);
-}
-finally
-{
-    conn.Close();
+        // Parancs végrehajtása
+        cmd.ExecuteNonQuery();
+        MessageBox.Show("Adat(ok) sikeresen hozzáadva");
+
+        // Adatok újratöltése a DataGrid-be
+        LoadData();
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show("Hiba történt az adatok mentése közben: " + ex.Message);
+    }
+    finally
+    {
+        conn.Close();
+    }
+
 }
 
 🟣Ha szeretnénk azt, hogy ellenőrizve legyen hogy minden ki van-e töltve és biztos szám került-e oda ahova kelett:
