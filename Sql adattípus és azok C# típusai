@@ -1,5 +1,3 @@
-SQL Adatbázis dolgok és annak parancsai:
-
 Íme néhány gyakran használt adattípus SQL-ben és azok megfelelő C# típusai:
 
 INT - egész számokhoz: int
