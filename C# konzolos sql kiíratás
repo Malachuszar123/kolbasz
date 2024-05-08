@@ -6,7 +6,6 @@ NuGets mysql hozzáadása
 🐈‍⬛2.
 using MySql.Data.MySqlClient;
 
-🐈‍⬛3.
 namespace ConsoleApp1
 {
     internal class Program
