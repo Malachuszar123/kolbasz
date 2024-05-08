@@ -19,21 +19,23 @@
         }
 
 🟡2. kód részlet: //kell a loaddata()-hoz egy kis adatbázis össze kötés, EGÉSZET kimásolni!
- private void LoadData()
- {
-     try
-     {
-         using (MySqlConnection connection = new MySqlConnection(connectionString))
-         using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM dolgozok", connection))
-         using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
-         {
-             DataTable dt = new DataTable();
-             da.Fill(dt);
-             tablazat.ItemsSource = dt.DefaultView;
-         }
-     }
-     catch { }
- }
+        private void LoadData()
+        {
+            string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;";
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            try
+            {
+                connection.Open();
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM levesek", connection))
+                using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                {
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    tablazat.ItemsSource = dt.DefaultView;
+                }
+            }
+            catch { }
+        }
 
 🟡3. kód részlet
 //ez az amikor a datagridre rá kattintasz 2x. itt kell legyen, mert ha nincs hibát írhat. Ide nem kell írni semmitse
