@@ -133,6 +133,9 @@ private void atirat_Click(object sender, RoutedEventArgs e)
     }
 }
 
+🔵🔵🔵🔵🔵a módosításban is meglehet azt csinálni hogy ahova szám kell oda csak szám és ahova betű oda csak betű mehet
+ellenőrző kódrészt megcsinánlni🔵🔵🔵🔵🔵🔵
+
 🔵illetve csak simán ez legyen itt:
  private void lista_SelectionChanged(object sender, SelectionChangedEventArgs e)
  {
