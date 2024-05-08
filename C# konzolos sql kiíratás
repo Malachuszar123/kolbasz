@@ -54,38 +54,3 @@ namespace ConsoleApp1
         }
     }
 }
-
-🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛🐈‍⬛
-
-🐈‍⬛mellék ként világi rövidséggel:
-
-namespace valamicsodarovidség
-{
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            var c = new MySqlConnection("server=localhost; user=root; database=pizza; password=;");
-            c.Open();
-
-            var q = new[] {
-            ("1. feladat: Hány db pizza van összesen?", "SELECT COUNT(pnev) FROM pizza"),
-            ("2. feladat: Pizzák neve és árai?", "SELECT pnev, par FROM pizza"),
-            ("3. feladat: Hány db pizzát rendelt Kuka 2013-ban?", "SELECT COUNT(r.idopont) FROM rendeles r INNER JOIN vevo v ON r.vazon = v.vazon WHERE v.vnev = 'Kuka' AND r.idopont BETWEEN '2023.01.01.' AND '2023.12.31.'")
-        };
-            foreach (var (question, query) in q)
-            {
-                Console.WriteLine(question);
-                var r = new MySqlCommand(query, c).ExecuteReader();
-                while (r.Read())
-                {
-                    Console.WriteLine(r[0] + (r.FieldCount > 1 ? $": {r[1]} Ft" : ""));
-                }
-                r.Close();
-                Console.WriteLine();   
-            }
-            c.Close();
-            Console.ReadLine();
-        }
-    }
-}
