@@ -7,14 +7,14 @@ Add hozzá a NuGetet (mysql)
 
 🔴2.
 GRID 450x450:
- <TextBlock HorizontalAlignment="Left" Margin="32,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Felhasználónév:"/></TextBlock>
- <TextBox x:Name="nev" HorizontalAlignment="Left" Margin="207,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" FontSize="20"/>
- <TextBlock HorizontalAlignment="Left" Margin="32,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Jelszó:"/></TextBlock>
- <TextBox x:Name="jel" HorizontalAlignment="Left" Margin="207,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" FontSize="20"/>
- <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36"><Run Language="hu-hu" Text="Bejelentkezés"/></TextBlock>
- <Button x:Name="bejgomb" Content="Bejelentkezés" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" FontSize="20"/>
- <Button x:Name="reggomb" Content="Regisztráció" HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" FontSize="20"/>
- <Button x:Name="kilepes" Content="Kilépés" HorizontalAlignment="Center" Margin="0,355,0,0" VerticalAlignment="Top" FontSize="20"/>
+<TextBlock HorizontalAlignment="Left" Margin="32,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Felhasználónév:"/></TextBlock>
+<TextBox x:Name="felh" HorizontalAlignment="Left" Margin="207,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" FontSize="20"/>
+<TextBlock HorizontalAlignment="Left" Margin="32,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Jelszó:"/></TextBlock>
+<TextBox x:Name="jel" HorizontalAlignment="Left" Margin="207,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" FontSize="20"/>
+<TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36"><Run Language="hu-hu" Text="Bejelentkezés"/></TextBlock>
+<Button x:Name="bej" Content="Bejelentkezés" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" FontSize="20" Click="bej_Click"/>
+<Button x:Name="reg" Content="Regisztráció" HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" FontSize="20"/>
+<Button x:Name="kil" Content="Kilépés" HorizontalAlignment="Center" Margin="0,355,0,0" VerticalAlignment="Top" FontSize="20"/>
 
 🔴Adatbázis létrehozása: 
 🔴db forge > jobb katt a localhostra > New Database > beirod az adatokat > fent a DATA 
@@ -24,34 +24,50 @@ GRID 450x450:
 🔴Fentre írd fel: using MySql.Data.MySqlClient;
 🔴Bejelentkezés az adatbázisból:
 
+🔴Ez a kód tetejére mehetne, csak azokat a sorokat másold ki amik kellenek, elég egyszer hivatkonzi az sql-re
+    public partial class MainWindow : Window
+    {
+        public MySqlConnection connection; //ez az új
+        public MainWindow()
+        {
+            InitializeComponent();
+            InitializeDbConn();  //ez az új
+        }
+
+        private void InitializeDbConn()  //ez az új
+        {  //ez az új
+            string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;";  //ez az új
+            connection = new MySqlConnection(connectionString);  //ez az új
+        }  //ez az új
+
 🔴3.
 bejelentkezés gomb:
-private void bejgomb_Click(object sender, RoutedEventArgs e)
+private void bej_Click(object sender, RoutedEventArgs e)
 {
-    string felhasznalonev = nev.Text;
+    string felhasznalonev = felh.Text;
     string jelszo = jel.Text;
 
     // Adatbázis kapcsolat beállítása
-    string connectionString = "Server=localhost;Database=vannevesjelszo;Uid=root;Pwd=;";
-    MySqlConnection connection = new MySqlConnection(connectionString);
+    string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;"; //ha 1x hivatkozol a tetején ezt törölheted
+    MySqlConnection connection = new MySqlConnection(connectionString);                     //ezt is
 
     try
     {
         connection.Open();
 
         // Ellenőrizzük, hogy a megadott felhasználónév és jelszó szerepel-e az adatbázisban
-        string query = "SELECT * FROM felhasznalok WHERE nev=@nev AND jelszo=@jelszo"; //ugy nevezd el a @ után mint ami az oszlop neve
+        string query = "SELECT * FROM felhasznalok WHERE nev=@felh AND jelszo=@jel"; //ugy nevezd el a @ után mint ami az oszlop neve
         MySqlCommand command = new MySqlCommand(query, connection);
-        command.Parameters.AddWithValue("@nev", felhasznalonev);  //oszlop neve és hogy az mi
-        command.Parameters.AddWithValue("@jelszo", jelszo);
+        command.Parameters.AddWithValue("@felh", felhasznalonev);  //oszlop neve és hogy az mi
+        command.Parameters.AddWithValue("@jel", jelszo);
 
         using (MySqlDataReader reader = command.ExecuteReader())
         {
             if (reader.Read())
             {
                 MessageBox.Show("Sikeres bejelentkezés!");
-                var regWindow = new Program();
-                regWindow.Show();
+                //var regWindow = new Program();
+                //regWindow.Show();
                 Close();
             }
             else
@@ -73,7 +89,7 @@ private void bejgomb_Click(object sender, RoutedEventArgs e)
 
 🔴4.
 regisztráció oldalra át menni:
-        private void reggomb_Click(object sender, RoutedEventArgs e)
+        private void reg_Click(object sender, RoutedEventArgs e)
         {
             var regWindow = new Regisztráció();
             regWindow.Show();
