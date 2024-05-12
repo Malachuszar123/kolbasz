@@ -4,7 +4,7 @@
         >index.php (1.)
         >databaseconnect.php (2.)
         -frontend mappa: 
-            >index.html (3.) http://localhosz/api/index.html?levesek
+            >index.html (3.) http://localhost/api/index.html?levesek
             >levesek.css (4.)
             >levesek.js (5.)
     
