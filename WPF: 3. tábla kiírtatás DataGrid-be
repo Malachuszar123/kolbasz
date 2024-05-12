@@ -3,10 +3,13 @@
 🟡GRID:
 <DataGrid x:Name="tablazat" AutoGenerateColumns="False" IsReadOnly="True" Margin="98,90,190,89" SelectionChanged="tablazat_SelectionChanged">
     <DataGrid.Columns>
-        <DataGridTextColumn Header="Neve" Binding="{Binding neve}" Width="*"/> //header: ami megjelenjen bármi lehet, Binding: sql oszlop neve, 
-        <DataGridTextColumn Header="Kaloria" Binding="{Binding kaloria}" Width="*"/>
+        <DataGridTextColumn Header="Leves Neve" Binding="{Binding neve}" Width="*"/> //header: ami megjelenjen bármi lehet, Binding: sql oszlop neve, 
+        <DataGridTextColumn Header="Kalória mennyiség" Binding="{Binding kaloria}" Width="*"/>
     </DataGrid.Columns>
 </DataGrid>
+
+🟡ilyet is lehet csinálni, hogy milyen módon írja pld a születési dátumot: 
+Binding="{Binding szuld, StringFormat={}{0:yyyy.MM.dd}
 
 🟡1x sql hivatkozás
 public partial class Regi : Window
