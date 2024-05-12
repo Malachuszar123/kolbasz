@@ -1,0 +1,14 @@
+public partial class Regi : Window
+{
+    public MySqlConnection connection; //ez az új
+    public Neve()
+    {
+        InitializeComponent();
+        InitializeDbConn();  //ez az új
+    }
+
+    private void InitializeDbConn()  //ez az új
+    {  //ez az új
+        string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;";  //ez az új
+        connection = new MySqlConnection(connectionString);  //ez az új
+    }  //ez az új
