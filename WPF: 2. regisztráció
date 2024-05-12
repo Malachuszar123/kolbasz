@@ -3,13 +3,13 @@ jobb katt a nevére > Add > Window WPF... > elnevezed
 
 🟢GRID: 450x450
         <TextBlock HorizontalAlignment="Left" Margin="32,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Felhasználónév:"/></TextBlock>
-        <TextBox x:Name="nev" HorizontalAlignment="Left" Margin="207,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" FontSize="20"/>
+        <TextBox x:Name="felh" HorizontalAlignment="Left" Margin="207,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" FontSize="20"/>
         <TextBlock HorizontalAlignment="Left" Margin="32,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Jelszó:"/></TextBlock>
         <TextBox x:Name="jel" HorizontalAlignment="Left" Margin="207,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" FontSize="20"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36"><Run Language="hu-hu" Text="Regisztráció"/></TextBlock>
-        <Button x:Name="reggomb" Content="Regisztráció" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <Button x:Name="bejgomb" Content="Inkább bejelentkezek" HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <Button x:Name="kilepes" Content="Kilépés" HorizontalAlignment="Center" Margin="0,355,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Button x:Name="reg" Content="Regisztráció" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Button x:Name="bej" Content="Inkább bejelentkezek" HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Button x:Name="kil" Content="Kilépés" HorizontalAlignment="Center" Margin="0,355,0,0" VerticalAlignment="Top" FontSize="20"/>
 
 🟢regisztrációs gomb:
  private void reggomb_Click(object sender, RoutedEventArgs e)
