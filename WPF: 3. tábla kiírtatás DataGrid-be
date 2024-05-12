@@ -3,8 +3,8 @@
 🟡GRID:
 <DataGrid x:Name="tablazat" AutoGenerateColumns="False" IsReadOnly="True" Margin="98,90,190,89" SelectionChanged="tablazat_SelectionChanged">
     <DataGrid.Columns>
-        <DataGridTextColumn Header="Neve" Binding="{Binding neve}" Width="*"/> //header: ami az első oszlopba legyen kiirva mint oszlop név, neve: az adatbázisból melyik oszlop legyen oda berakva
-        <DataGridTextColumn Header="Kaloria" Binding="{Binding kaloria}" Width="*"/> //Width="*" a táblázatban elosztja normálisan az oszlopokat
+        <DataGridTextColumn Header="Neve" Binding="{Binding neve}" Width="*"/> //header: ami megjelenjen bármi lehet, Binding: sql oszlop neve, 
+        <DataGridTextColumn Header="Kaloria" Binding="{Binding kaloria}" Width="*"/>
     </DataGrid.Columns>
 </DataGrid>
 
