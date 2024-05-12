@@ -26,7 +26,7 @@ GRID 450x450:
 
 🔴3.
 bejelentkezés gomb:
-        private void bejgomb_Click(object sender, RoutedEventArgs e)
+private void bejgomb_Click(object sender, RoutedEventArgs e)
 {
     string felhasznalonev = nev.Text;
     string jelszo = jel.Text;
