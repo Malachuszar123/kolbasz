@@ -47,6 +47,13 @@ private void bej_Click(object sender, RoutedEventArgs e)
     string felhasznalonev = felh.Text;
     string jelszo = jel.Password;
 
+// Ellenőrizzük, hogy mindkét mező ki van-e töltve
+if (string.IsNullOrWhiteSpace(felhasznalonev) || string.IsNullOrWhiteSpace(jelszo))
+{
+        MessageBox.Show("Kérlek, töltsd ki mindkét mezőt!");
+        return;
+}
+
     // Adatbázis kapcsolat beállítása
     string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;"; //ha 1x hivatkozol a tetején ezt törölheted
     MySqlConnection connection = new MySqlConnection(connectionString);                     //ezt is
