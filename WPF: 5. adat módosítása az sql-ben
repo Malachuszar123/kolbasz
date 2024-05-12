@@ -18,15 +18,21 @@ public partial class adatatiras : Window
  <TextBlock HorizontalAlignment="Left" Margin="405,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Telefon:"/></TextBlock>
  <ComboBox x:Name="lista" HorizontalAlignment="Left" Margin="141,67,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="lista_SelectionChanged"/>
 
-🔵még add hozzá ezeket:
-    public partial class adatatiras : Window
+🔵1x sql hivatkozás:
+public partial class Regi : Window
+{
+    public MySqlConnection connection; //ez az új
+    public Neve()
     {
-        private string connectionString = "Server=localhost;Database=vannevesjelszo;Uid=root;Pwd=;"; //ezt a sort musaj ide kintre rakni!!
-        public adatatiras()
-        {
-            InitializeComponent();
-            FillComboBox(); //ezt írd ide
-        }
+        InitializeComponent();
+        InitializeDbConn();  //ez az új
+    }
+
+    private void InitializeDbConn()  //ez az új
+    {  //ez az új
+        string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;";  //ez az új
+        connection = new MySqlConnection(connectionString);  //ez az új
+    }  //ez az új
 
 🔵a fillcombobox-ot feltötljük:
 private void FillComboBox()
