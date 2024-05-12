@@ -17,17 +17,40 @@ GRID: mik ezek? Uj elem hozzáadása; pld: leves neve(tbox): almaleves(tblock); 
  <TextBlock HorizontalAlignment="Left" Margin="405,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Készítette:"/></TextBlock>
  <TextBlock HorizontalAlignment="Left" Margin="400,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Össz levesek:"/></TextBlock>
 
+🟣1x sql hivatkozás
+public partial class Regi : Window
+{
+    public MySqlConnection connection; //ez az új
+    public Neve()
+    {
+        InitializeComponent();
+        InitializeDbConn();  //ez az új
+    }
+
+    private void InitializeDbConn()  //ez az új
+    {  //ez az új
+        string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;";  //ez az új
+        connection = new MySqlConnection(connectionString);  //ez az új
+    }  //ez az új
+
 🟣A hozzáadó gombra kattinta:
 private void Button_Click_1(object sender, RoutedEventArgs e)
 {
     string nevValue = nev.Text;
-    int kaloriaValue = int.Parse(kaloria.Text); //aminek el lett nevezve a textbox ugy nevezd itt el
+    int kaloriaValue = int.Parse(kaloria.Text); //aminek el lett nevezve a textbox ugy nevezd itt el, számok: int és Parse, betűk string és semmi!!!
     string fohozzavaloValue = fohozzavalo.Text;
     string keszitetteValue = keszitette.Text;
     int osszlevesekValue = int.Parse(osszlevesek.Text);
+//dátum esetén: DateTime szuldatumValue = DateTime.Parse(datum.Text);
 
-    string connStr = "server=localhost;user=root;database=vannevesjelszo;password="; //sima csatlakozás megint...
-    MySqlConnection conn = new MySqlConnection(connStr);
+// Ellenőrizzük, hogy mindkét mező ki van-e töltve
+if (string.IsNullOrWhiteSpace(nevValue) || string.IsNullOrWhiteSpace(datum.Text))
+{
+    MessageBox.Show("Kérlek, töltsd ki mindkét mezőt!");
+    return;
+}
+    string connStr = "server=localhost;user=root;database=vannevesjelszo;password="; //ha már 1x csatlakoztál akkor már nem kell
+    MySqlConnection conn = new MySqlConnection(connStr); // ez sem
 
     try
     {
