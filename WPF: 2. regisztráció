@@ -33,6 +33,13 @@ private void reg_Click(object sender, object e)
     string felhasznalonev = felh.Text;
     string jelszo = jel.Password;
 
+// Ellenőrizzük, hogy mindkét mező ki van-e töltve
+if (string.IsNullOrWhiteSpace(felhasznalonev) || string.IsNullOrWhiteSpace(jelszo))
+{
+        MessageBox.Show("Kérlek, töltsd ki mindkét mezőt!");
+        return;
+}
+
         string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;"; //ha már 1x hivatlpztál az sql-re akkor ez nem kell
         MySqlConnection connection = new MySqlConnection(connectionString); //ez se
 
