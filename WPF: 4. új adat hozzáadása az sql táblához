@@ -43,12 +43,15 @@ private void Button_Click_1(object sender, RoutedEventArgs e)
     int osszlevesekValue = int.Parse(osszlevesek.Text);
 //dátum esetén: DateTime szuldatumValue = DateTime.Parse(datum.Text);
 
-// Ellenőrizzük, hogy mindkét mező ki van-e töltve
-if (string.IsNullOrWhiteSpace(nevValue) || string.IsNullOrWhiteSpace(kaloria.Text))
-{
-    MessageBox.Show("Kérlek, töltsd ki mindkét mezőt!");
-    return;
-}
+     // Ellenőrizzük, hogy minden mező ki van-e töltve
+     if (string.IsNullOrWhiteSpace(nev.Text) || string.IsNullOrWhiteSpace(kaloria.Text) ||
+         string.IsNullOrWhiteSpace(fohozzavalo.Text) || string.IsNullOrWhiteSpace(keszitette.Text) ||
+         string.IsNullOrWhiteSpace(osszlevesek.Text))
+     {
+         MessageBox.Show("Minden mezőt ki kell tölteni.");
+         return;
+     }
+
     string connStr = "server=localhost;user=root;database=vannevesjelszo;password="; //ha már 1x csatlakoztál akkor már nem kell
     MySqlConnection conn = new MySqlConnection(connStr); // ez sem
 
