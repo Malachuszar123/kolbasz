@@ -45,7 +45,7 @@ bejelentkezés gomb:
 private void bej_Click(object sender, RoutedEventArgs e)
 {
     string felhasznalonev = felh.Text;
-    string jelszo = jel.Text;
+    string jelszo = jel.Password;
 
     // Adatbázis kapcsolat beállítása
     string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;"; //ha 1x hivatkozol a tetején ezt törölheted
