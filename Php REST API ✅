@@ -74,9 +74,9 @@ if ($conn->errno) { // Ellenőrzi, hogy van-e hiba a kapcsolat létrehozásakor.
 
 (((🐖🐖🐖Melléklek... nem értettem
 VS Code:
-negyzetek: thunder client le kell tölteni
+negyzetek: thunder client
 new request
--POST: http://localhost/api/index.php?fogyasztas
+POST: http://localhost/api/index.php?fogyasztas
 body: valami
 🐖🐖🐖)))
 
