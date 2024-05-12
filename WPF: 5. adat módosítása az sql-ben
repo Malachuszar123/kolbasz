@@ -1,10 +1,5 @@
 🔵🔵🔵5. adat módosítása az sql-ben🔵🔵🔵
 
-🔵fentre ezeket alkalmazzuk:
-public partial class adatatiras : Window
-{ //ez alá be kell rakni az sql csatlakozást
-    private string connectionString = "Server=localhost;Database=vannevesjelszo;Uid=root;Pwd=;";
-
 🔵esetleges GRID:
  <Button x:Name="atirat" Content="Átírás" HorizontalAlignment="Left" Margin="616,253,0,0" VerticalAlignment="Top" FontSize="20" Click="Button_Click_1"/>
  <TextBox x:Name="dnev" HorizontalAlignment="Left" Margin="541,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
@@ -42,7 +37,7 @@ private void FillComboBox()
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             connection.Open();
-            string query = "SELECT dnev FROM dolgozok";
+            string query = "SELECT dnev FROM levesek";
             MySqlCommand command = new MySqlCommand(query, connection);
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
