@@ -11,67 +11,84 @@ jobb katt a nevére > Add > Window WPF... > elnevezed
         <Button x:Name="bej" Content="Inkább bejelentkezek" HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Button x:Name="kil" Content="Kilépés" HorizontalAlignment="Center" Margin="0,355,0,0" VerticalAlignment="Top" FontSize="20"/>
 
+🟢ezt a kód tetejére, ezzel csak 1x hivatkozol az sql-re és mindenhol működik
+public partial class Regi : Window
+{
+    public MySqlConnection connection; //ez az új
+    public Regi()
+    {
+        InitializeComponent();
+        InitializeDbConn();  //ez az új
+    }
+
+    private void InitializeDbConn()  //ez az új
+    {  //ez az új
+        string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;";  //ez az új
+        connection = new MySqlConnection(connectionString);  //ez az új
+    }  //ez az új
+
 🟢regisztrációs gomb:
- private void reggomb_Click(object sender, RoutedEventArgs e)
- {
-     string felhasznalonev = nev.Text;
-     string jelszo = jel.Text;
+private void reg_Click(object sender, object e)
+{
+    string felhasznalonev = felh.Text;
+    string jelszo = jel.Text;
 
-     string connectionString = "Server=localhost;Database=vannevesjelszo;Uid=root;Pwd=;";
-     MySqlConnection connection = new MySqlConnection(connectionString);
+        string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;"; //ha már 1x hivatlpztál az sql-re akkor ez nem kell
+        MySqlConnection connection = new MySqlConnection(connectionString); //ez se
 
-     try
-         {
-         connection.Open(); 
-         // Ellenőrizzük, hogy a felhasználónév már létezik-e az adatbázisban
-         string checkQuery = "SELECT COUNT(*) FROM felhasznalok WHERE nev=@nev";
-         MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-         checkCommand.Parameters.AddWithValue("@nev", felhasznalonev); //a nev oszlopban van-e már olyan felhasználó ellenőrzése
-         int userCount = Convert.ToInt32(checkCommand.ExecuteScalar());
+    try
+    {
+        connection.Open();
+        // Ellenőrizzük, hogy a felhasználónév már létezik-e az adatbázisban
+        string checkQuery = "SELECT COUNT(*) FROM felhasznalok WHERE nev=@felh";
+        MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+        checkCommand.Parameters.AddWithValue("@felh", felhasznalonev); //a nev oszlopban van-e már olyan felhasználó ellenőrzése
+        int userCount = Convert.ToInt32(checkCommand.ExecuteScalar());
 
-         if (userCount > 0)
-         {
-             MessageBox.Show("A felhasználónév már létezik. Kérlek, válassz másikat!");
-             return;
-         }
-
-         // Ha a felhasználónév még nem létezik, beszúrjuk az adatbázisba
-         string insertQuery = "INSERT INTO felhasznalok (nev, jelszo) VALUES (@nev, @jelszo)"; //nev és jelszo az oszlopok nevei
-         MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
-         insertCommand.Parameters.AddWithValue("@nev", felhasznalonev); //a @nev az a neve az oszlopnak amiben a felhasználó nevek vannak //ugyan így ha más adat kell akkor más oszlopnevet írsz ide meg @ után is
-         insertCommand.Parameters.AddWithValue("@jelszo", jelszo); // ugyan úgy ez az oszlop neve ahol a jelszavak vannak; //ugyan így ha más adat kell akkor más oszlopnevet írsz ide meg
-         int rowsAffected = insertCommand.ExecuteNonQuery();
-
-         if (rowsAffected > 0)
-         {
-             MessageBox.Show("Sikeres regisztráció!"); //át visz a bejelentkezésre
-             var regWindow = new MainWindow();
-             regWindow.Show();
-             Close();
-         }
-         else
-         {
-             MessageBox.Show("A regisztráció során hiba történt. Kérlek, próbáld újra!");
-         }
-         }
-         catch (Exception ex)
-         {
-             MessageBox.Show("Hiba történt az adatbázis kapcsolódásakor: " + ex.Message);
-         }
-         finally
-         {
-             if (connection.State == ConnectionState.Open)
-                 connection.Close();
-         }
- }
-
-🟢Átváltás a bejelentkezésre:
-🟢inkább a bejelentkezésre vissza váltás gomb
-        private void bejgomb_Click(object sender, RoutedEventArgs e)
+        if (userCount > 0)
         {
+            MessageBox.Show("A felhasználónév már létezik. Kérlek, válassz másikat!");
+            return;
+        }
+
+        // Ha a felhasználónév még nem létezik, beszúrjuk az adatbázisba
+        string insertQuery = "INSERT INTO felhasznalok (nev, jelszo) VALUES (@felh, @jel)"; //()-ben az oszlopok nevei, @ után textbox nevei
+        MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+        insertCommand.Parameters.AddWithValue("@felh", felhasznalonev); 
+        insertCommand.Parameters.AddWithValue("@jel", jelszo); // @ textbox, oszlop neve
+        int rowsAffected = insertCommand.ExecuteNonQuery();
+
+        if (rowsAffected > 0)
+        {
+            MessageBox.Show("Sikeres regisztráció!"); //át visz a bejelentkezésre
             var regWindow = new MainWindow();
             regWindow.Show();
             Close();
         }
+        else
+        {
+            MessageBox.Show("A regisztráció során hiba történt. Kérlek, próbáld újra!");
+        }
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show("Hiba történt az adatbázis kapcsolódásakor: " + ex.Message);
+    }
+    finally
+    {
+        if (connection.State == ConnectionState.Open)
+            connection.Close();
+    }
+}
+
+🟢Átváltás a bejelentkezésre:
+      private void bej_Click(object sender, RoutedEventArgs e)
+{
+    {
+        var regWindow = new MainWindow();
+        regWindow.Show();
+        Close();
+    }
+}
 
 🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢
