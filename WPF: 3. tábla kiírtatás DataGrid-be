@@ -8,6 +8,22 @@
     </DataGrid.Columns>
 </DataGrid>
 
+🟡1x sql hivatkozás
+public partial class Regi : Window
+{
+    public MySqlConnection connection; //ez az új
+    public Neve()
+    {
+        InitializeComponent();
+        InitializeDbConn();  //ez az új
+    }
+
+    private void InitializeDbConn()  //ez az új
+    {  //ez az új
+        string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;";  //ez az új
+        connection = new MySqlConnection(connectionString);  //ez az új
+    }  //ez az új
+
 🟡táblázatos kód hogy kiirja az egyénileg kért táblázatot sql segitségével:
 
 🟡TÁBLÁZAT KIIRATÁSA: 3 részből áll; DATAGRID-ben
@@ -21,8 +37,8 @@
 🟡2. kód részlet: //kell a loaddata()-hoz egy kis adatbázis össze kötés, EGÉSZET kimásolni!
         private void LoadData()
         {
-            string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;";
-            MySqlConnection connection = new MySqlConnection(connectionString);
+            string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;"; //ha már 1x hivatkoztál az sql-re ez nem kell
+            MySqlConnection connection = new MySqlConnection(connectionString); // ez sem
             try
             {
                 connection.Open();
