@@ -161,3 +161,16 @@ levesek.css
     background-color: rgba(21, 255, 0, 0.445);
     box-shadow: 0 4px 10px rgba(0, 94, 13, 0.829);
 }
+
+
+🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖
+
+🐖mappa:
+-htdocs mappa:
+    -api mappa:
+        >index.php (1.)
+        >databaseconnect.php (2.)
+        -frontend mappa: 
+            >index.html (3.) http://localhost/api/index.php?dolgozok
+            >levesek.css (4.)
+            >levesek.js (5.)
