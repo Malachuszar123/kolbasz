@@ -61,7 +61,7 @@ switch ($params[0]) { // A kapott paraméterek alapján kapcsol át.
 
 
 🐖2.
-databaseconnect.php:
+databaseconnect.php: ✅FIX
 
 <?php
 $conn = new mysqli("localhost", "root", "", "etelek"); // Létrehozza a kapcsolatot a MySQL adatbázissal: helyi szerver, root felhasználó, üres jelszó, "etelek" adatbázis.
@@ -71,6 +71,8 @@ if ($conn->errno) { // Ellenőrzi, hogy van-e hiba a kapcsolat létrehozásakor.
 }
 // $conn -> set_charset('utf-8'); // A karakterkódolás beállítása UTF-8-ra. Jelenleg kikommentezve van, így nincs hatással a kódra.
 ?>
+
+🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖🐖
 
 (((🐖🐖🐖Melléklek... nem értettem
 VS Code:
@@ -171,6 +173,17 @@ levesek.css
         >index.php (1.)
         >databaseconnect.php (2.)
         -frontend mappa: 
-            >index.html (3.) http://localhost/api/index.php?dolgozok
+            >index.php (3.) http://localhost/api/index.php?dolgozok
             >levesek.css (4.)
             >levesek.js (5.)
+
+thunder client 
+new request > POST: localhost/api/index.php?dolgozok
+body > FORM
+
+nev - Béla
+neme - férfi
+reszleg - asztalos
+belepesev - 2021
+ber - 50000
+és SEND
