@@ -1,12 +1,26 @@
 Íme néhány gyakran használt adattípus SQL-ben és azok megfelelő C# típusai:
 
-INT - egész számokhoz: int
-BIGINT - nagy egész számokhoz: long
-FLOAT - tizedespontos számokhoz: float vagy double
-DECIMAL - pontos számokhoz: decimal
-VARCHAR - változó hosszúságú szövegekhez: string
-CHAR - fix hosszúságú szövegekhez: string
-DATE - dátumhoz (pl. YYYY-MM-DD formátumban): DateTime
-TIME - időponthoz (pl. HH:MM:SS formátumban): TimeSpan
-DATETIME - dátum és időpont kombinációja: DateTime
-BOOLEAN - logikai értékekhez: bool
+INT / INTEGER: Egész számokhoz: int
+BIGINT: Nagy egész számokhoz: long
+FLOAT: Tizedespontos számokhoz: float vagy double
+DECIMAL: Pontos számokhoz: decimal
+VARCHAR: Változó hosszúságú szövegekhez: string
+CHAR: Fix hosszúságú szövegekhez: string
+DATE: Dátumhoz (pl. YYYY-MM-DD formátumban): DateTime
+TIME: Időponthoz (pl. HH:MM:SS formátumban): TimeSpan
+DATETIME: Dátum és időpont kombinációja: DateTime
+BOOLEAN: Logikai értékekhez: bool
+TINYINT: Kis egész számokhoz: byte
+SMALLINT: Kis egész számokhoz: short
+MEDIUMINT: Közepes méretű egész számokhoz: int
+REAL / DOUBLE PRECISION: Valós számokhoz: float vagy double
+BIT: Bitekhez: bool
+ENUM: Előre definiált értékek listájához: enum (pl. C#)
+SET: Előre definiált értékek halmazához: string (vagy egyéb megfelelő adattípus)
+BINARY: Bináris adatokhoz, fix hosszúságú: byte[]
+VARBINARY: Bináris adatokhoz, változó hosszúságú: byte[]
+BLOB: Nagy bináris adatokhoz, például képekhez vagy hangfájlokhoz: byte[]
+TEXT: Nagy szöveges adatokhoz: string vagy byte[]
+TIMESTAMP: Időbélyegző, a dátum és időpont kombinációjához: DateTime
+YEAR: Évhez: int vagy string
+JSON: JSON adattípus: string
