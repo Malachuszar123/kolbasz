@@ -34,12 +34,11 @@ private void FillComboBox()
 {
     try
     {
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        connection.Open();
+        string query = "SELECT dnev FROM dolgozok";
+        command.CommandText = query;
+        using (MySqlDataReader reader = command.ExecuteReader())
         {
-            connection.Open();
-            string query = "SELECT dnev FROM levesek";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
                 lista.Items.Add(reader["dnev"].ToString());
@@ -50,96 +49,95 @@ private void FillComboBox()
     {
         MessageBox.Show("Hiba történt az adatbázis kapcsolat során: " + ex.Message);
     }
+    finally
+    {
+        connection.Close();
+    }
 }
 
 🔵az átirat gomb kódja:
-private void atirat_Click(object sender, RoutedEventArgs e)
+private void Button_Click_1(object sender, RoutedEventArgs e)
 {
+    if (!ValidateInputs()) return;
+
     try
     {
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        connection.Open();
+        string query = "UPDATE dolgozok SET ";
+
+        if (!string.IsNullOrWhiteSpace(teljesneve.Text))
         {
-            connection.Open();
-            string query = "UPDATE levesek SET ";
-            MySqlCommand command = new MySqlCommand();
+            query += "dnev = @teljesneve, ";
+            command.Parameters.AddWithValue("@teljesneve", teljesneve.Text);
+        }
 
-            if (!string.IsNullOrWhiteSpace(nev.Text))
-            {
-                query += "neve = @nev, "; //db oszlop neve = @texbbox neve... elvileg
-                command.Parameters.AddWithValue("@nev", nev.Text);
-            }
+        if (!string.IsNullOrWhiteSpace(szuldatum.Text))
+        {
+            query += "dszul = @szuldatum, ";
+            command.Parameters.AddWithValue("@szuldatum", szuldatum.Text);
+        }
 
-            if (!string.IsNullOrWhiteSpace(kaloria.Text))
-            {
-                query += "kaloria = @kaloria, ";
-                command.Parameters.AddWithValue("@kaloria", kaloria.Text);
-            }
+        if (!string.IsNullOrWhiteSpace(munkaneve.Text))
+        {
+            query += "dmunk = @munkaneve, ";
+            command.Parameters.AddWithValue("@munkaneve", munkaneve.Text);
+        }
 
-            if (!string.IsNullOrWhiteSpace(fohozzavalo.Text))
-            {
-                query += "fohozzavalo = @fohozzavalo, ";
-                command.Parameters.AddWithValue("@fohozzavalo", fohozzavalo.Text);
-            }
+        if (!string.IsNullOrWhiteSpace(telefonszama.Text))
+        {
+            query += "dtel = @telefonszama, ";
+            command.Parameters.AddWithValue("@telefonszama", telefonszama.Text);
+        }
 
-            if (!string.IsNullOrWhiteSpace(keszitette.Text))
-            {
-                query += "keszitette = @keszitette, ";
-                command.Parameters.AddWithValue("@keszitette", keszitette.Text);
-            }
+        query = query.TrimEnd(',', ' ') + " WHERE dnev = @teljesneve_update";
+        command.Parameters.AddWithValue("@teljesneve_update", lista.SelectedItem.ToString());
 
-            if (!string.IsNullOrWhiteSpace(osszlevesek.Text))
-            {
-                query += "osszlevesek = @osszlevesek, ";
-                command.Parameters.AddWithValue("@osszlevesek", osszlevesek.Text);
-            }
+        command.CommandText = query;
 
-            // Remove the last comma and space
-            query = query.TrimEnd(',', ' ');
-
-            // Ha nincs egyetlen mező sem kitöltve, akkor ne hajtsa végre a módosítást
-            if (string.IsNullOrWhiteSpace(query))
-            {
-                MessageBox.Show("Nem adott meg módosítandó adatokat.");
-                return;
-            }
-
-            // Ha nincs egyetlen mező sem kitöltve, akkor ne hajtsa végre a módosítást
-            if (lista.SelectedItem == null)
-            {
-                MessageBox.Show("Nincs kiválasztva leves.");
-                return;
-            }
-
-            // Hozzáadja a WHERE feltételt a nevhez
-            query += " WHERE neve = @selectedName";
-            command.Parameters.AddWithValue("@selectedName", lista.SelectedItem.ToString());
-
-            command.CommandText = query;
-            command.Connection = connection;
-
-            int rowsAffected = command.ExecuteNonQuery();
-            if (rowsAffected > 0)
-            {
-                MessageBox.Show("Adatok sikeresen módosítva.");
-            }
-            else
-            {
-                MessageBox.Show("Nem sikerült módosítani az adatokat.");
-            }
+        int rowsAffected = command.ExecuteNonQuery();
+        if (rowsAffected > 0)
+        {
+            MessageBox.Show("Adatok sikeresen módosítva.");
+        }
+        else
+        {
+            MessageBox.Show("Nem sikerült módosítani az adatokat.");
         }
     }
     catch (Exception ex)
     {
         MessageBox.Show("Hiba történt az adatok módosítása során: " + ex.Message);
     }
+    finally
+    {
+        connection.Close();
+    }
 }
+
+🔵hogyha szeretnéd ellenőrízetni, hogy mindegyik mezőbe helyesek-e a formátumok:
+        private bool ValidateInputs()
+        {
+            if (!string.IsNullOrWhiteSpace(szuldatum.Text) && !DateTime.TryParseExact(szuldatum.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
+            {
+                MessageBox.Show("A születési dátum formátuma helytelen (év-hó-nap, pl. 2024-05-20).");
+                return false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(telefonszama.Text) && !long.TryParse(telefonszama.Text, out _))
+            {
+                MessageBox.Show("A telefonszám csak számokat tartalmazhat.");
+                return false;
+            }
+
+            return true;
+        }
 
 🔵🔵🔵🔵🔵a módosításban is meglehet azt csinálni hogy ahova szám kell oda csak szám és ahova betű oda csak betű mehet
 ellenőrző kódrészt megcsinánlni🔵🔵🔵🔵🔵🔵
 
 🔵illetve csak simán ez legyen itt:
- private void lista_SelectionChanged(object sender, SelectionChangedEventArgs e)
- {
+        private void lista_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
 
- }
+        }
 🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
