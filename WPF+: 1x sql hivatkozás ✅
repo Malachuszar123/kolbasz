@@ -1,3 +1,5 @@
+//ez az új: azokat a sorokat rakd be csak
+
 public partial class Regi : Window
 {
     public MySqlConnection connection; //ez az új
