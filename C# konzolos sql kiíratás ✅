@@ -6,49 +6,48 @@ NuGets mysql hozzáadása
 🐈‍⬛2.
 using MySql.Data.MySqlClient;
 
-namespace ConsoleApp1
+namespace probamegintetcsekeee
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            string connString = "server=localhost; user=root; database=pizza; password=;"; //adatbázis hozzákapcsolása
-            MySqlConnection dbConn = new MySqlConnection(connString);
+            string connString = "server=localhost; user=root; database=pizza; password=;";
+            MySqlConnection databaseconn = new MySqlConnection(connString);
 
             try
             {
-                dbConn.Open();
+                databaseconn.Open();
 
                 // 1. feladat: Hány db pizza van összesen?
-                string lekerdezes1 = "SELECT COUNT(pnev) FROM pizza";
-                MySqlCommand database = new MySqlCommand(lekerdezes1, dbConn);
+                MySqlCommand lekerdezes1 = new MySqlCommand("SELECT COUNT(pnev) FROM pizza", databaseconn);
                 Console.WriteLine("1. feladat: Hány db pizza van összesen?");
-                Console.WriteLine($"{database.ExecuteScalar()}");
+                Console.WriteLine($"{lekerdezes1.ExecuteScalar()}");
 
                 // 2. feladat: Pizzák neve és árai?
-                string lekerdezes2 = "SELECT pnev, par FROM pizza";
-                MySqlCommand database2 = new MySqlCommand(lekerdezes2, dbConn);
+                MySqlCommand lekerdezes2 = new MySqlCommand("SELECT pnev, par FROM pizza", databaseconn);
                 Console.WriteLine("\n2. feladat: Pizzák neve és árai?");
-                using (var reader = database2.ExecuteReader())
+                using (var olvaso = lekerdezes2.ExecuteReader())
                 {
-                    while (reader.Read()) //több oszlopos kiiratás
+                    while (olvaso.Read())
                     {
-                        string neve = reader.GetString(0);
-                        int ara = reader.GetInt32(1);
-                        Console.WriteLine($"{neve}: {ara} Ft");
+                        Console.WriteLine($"{olvaso.GetString(0)}: {olvaso.GetInt32(1)} Ft");//getstring: szavak; getint32: számok oszlopai
                     }
                 }
 
-                // 3. feladat: Hány db pizza van összesen?
-                string lekerdezes3 = "SELECT\r\n  COUNT(rendeles.idopont) AS dbpizzak\r\nFROM rendeles\r\n  INNER JOIN vevo\r\n    ON rendeles.vazon = vevo.vazon\r\nWHERE vevo.vnev = 'Kuka'\r\nAND rendeles.idopont BETWEEN '2023.01.01.' AND '2023.12.31.'";
-                MySqlCommand database3 = new MySqlCommand(lekerdezes3, dbConn);
-                Console.WriteLine("\n3. feladat: Hány db pizzát rendelt Kuka 2013-ban?");
-                Console.WriteLine($"{database3.ExecuteScalar()}");
+                // 3. feladat: Hány db pizzát rendelt Kuka 2023-ban?
+                MySqlCommand lekerdezes3 = new MySqlCommand(
+                    "SELECT COUNT(rendeles.idopont) FROM rendeles " +
+                    "INNER JOIN vevo ON rendeles.vazon = vevo.vazon " +
+                    "WHERE vevo.vnev = 'Kuka' AND rendeles.idopont BETWEEN '2023-01-01' AND '2023-12-31'", databaseconn);
+                Console.WriteLine("\n3. feladat: Hány db pizzát rendelt Kuka 2023-ban?");
+                Console.WriteLine($"{lekerdezes3.ExecuteScalar()}");
             }
-            finally
+            catch (Exception ex)
             {
-                dbConn.Close();
+                Console.WriteLine($"Hiba történt: {ex.Message}");
             }
+
             Console.ReadLine();
         }
     }
