@@ -1,17 +1,17 @@
 🔵🔵🔵5. adat módosítása az sql-ben🔵🔵🔵
 
-🔵esetleges GRID:
- <Button x:Name="atirat" Content="Átírás" HorizontalAlignment="Left" Margin="616,253,0,0" VerticalAlignment="Top" FontSize="20" Click="Button_Click_1"/>
- <TextBox x:Name="dnev" HorizontalAlignment="Left" Margin="541,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
- <TextBox x:Name="dszul" HorizontalAlignment="Left" Margin="541,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
- <TextBox x:Name="dmunk" HorizontalAlignment="Left" Margin="541,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
- <TextBox x:Name="dtel" HorizontalAlignment="Left" Margin="541,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
- <TextBlock HorizontalAlignment="Left" Margin="541,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Adatok módosítása"/></TextBlock>
- <TextBlock HorizontalAlignment="Left" Margin="405,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Név:"/></TextBlock>
- <TextBlock HorizontalAlignment="Left" Margin="405,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Születési d:"/></TextBlock>
- <TextBlock HorizontalAlignment="Left" Margin="405,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Munka:"/></TextBlock>
- <TextBlock HorizontalAlignment="Left" Margin="405,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Telefon:"/></TextBlock>
- <ComboBox x:Name="lista" HorizontalAlignment="Left" Margin="141,67,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="lista_SelectionChanged"/>
+🔵GRID:
+        <Button x:Name="atirat" Content="Átírás" HorizontalAlignment="Left" Margin="616,253,0,0" VerticalAlignment="Top" FontSize="20" Click="Button_Click_1"/>
+        <TextBox x:Name="teljesneve" HorizontalAlignment="Left" Margin="541,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+        <TextBox x:Name="szuldatum" HorizontalAlignment="Left" Margin="541,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+        <TextBox x:Name="munkaneve" HorizontalAlignment="Left" Margin="541,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+        <TextBox x:Name="telefonszama" HorizontalAlignment="Left" Margin="541,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="541,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Adatok módosítása"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="405,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Név:"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="405,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Születési d:"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="405,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Munka:"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="405,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Telefon:"/></TextBlock>
+        <ComboBox x:Name="lista" HorizontalAlignment="Left" Margin="141,67,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="lista_SelectionChanged"/>
 
 🔵1x sql hivatkozás:
 public partial class Regi : Window
@@ -29,97 +29,131 @@ public partial class Regi : Window
         connection = new MySqlConnection(connectionString);  //ez az új
     }  //ez az új
 
-🔵a fillcombobox-ot feltötljük:
-private void FillComboBox()
+🔵teljes kód: 🧻
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+using System.Windows;
+using MySql.Data.MySqlClient;
+
+namespace WpfApp1qqqq
 {
-    try
+    public partial class MainWindow : Window
     {
-        connection.Open();
-        string query = "SELECT dnev FROM dolgozok";
-        command.CommandText = query;
-        using (MySqlDataReader reader = command.ExecuteReader())
+        private MySqlConnection connection;
+        private MySqlCommand command;
+
+        public MainWindow()
         {
-            while (reader.Read())
+            InitializeComponent();
+            InitializeDbConn();
+            FillComboBox();
+        }
+
+        private void InitializeDbConn()
+        {
+            string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;";
+            connection = new MySqlConnection(connectionString);
+            command = new MySqlCommand { Connection = connection };
+        }
+
+        private void FillComboBox()
+        {
+            try
             {
-                lista.Items.Add(reader["dnev"].ToString());
+                connection.Open();
+                string query = "SELECT dnev FROM dolgozok";
+                command.CommandText = query;
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        lista.Items.Add(reader["dnev"].ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiba történt az adatbázis kapcsolat során: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show("Hiba történt az adatbázis kapcsolat során: " + ex.Message);
-    }
-    finally
-    {
-        connection.Close();
-    }
-}
 
-🔵az átirat gomb kódja:
-private void Button_Click_1(object sender, RoutedEventArgs e)
-{
-    if (!ValidateInputs()) return;
-
-    try
-    {
-        connection.Open();
-        string query = "UPDATE dolgozok SET ";
-
-        if (!string.IsNullOrWhiteSpace(teljesneve.Text))
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            query += "dnev = @teljesneve, ";
-            command.Parameters.AddWithValue("@teljesneve", teljesneve.Text);
+            if (lista.SelectedItem == null)
+            {
+                MessageBox.Show("Nincs név kiválasztva.");
+                return;
+            }
+
+            if (!ValidateInputs()) return;
+
+            try
+            {
+                connection.Open();
+                string query = "UPDATE dolgozok SET ";
+                var updateFields = new List<string>();
+
+                if (!string.IsNullOrWhiteSpace(teljesneve.Text))
+                {
+                    updateFields.Add("dnev = @teljesneve");
+                    command.Parameters.AddWithValue("@teljesneve", teljesneve.Text);
+                }
+
+                if (!string.IsNullOrWhiteSpace(szuldatum.Text))
+                {
+                    updateFields.Add("dszul = @szuldatum");
+                    command.Parameters.AddWithValue("@szuldatum", DateTime.ParseExact(szuldatum.Text, "yyyy.MM.dd", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd"));
+                }
+
+                if (!string.IsNullOrWhiteSpace(munkaneve.Text))
+                {
+                    updateFields.Add("dmunk = @munkaneve");
+                    command.Parameters.AddWithValue("@munkaneve", munkaneve.Text);
+                }
+
+                if (!string.IsNullOrWhiteSpace(telefonszama.Text))
+                {
+                    updateFields.Add("dtel = @telefonszama");
+                    command.Parameters.AddWithValue("@telefonszama", telefonszama.Text);
+                }
+
+                if (updateFields.Count > 0)
+                {
+                    query += string.Join(", ", updateFields) + " WHERE dnev = @teljesneve_update";
+                    command.Parameters.AddWithValue("@teljesneve_update", lista.SelectedItem.ToString());
+
+                    command.CommandText = query;
+
+                    int rowsAffected = command.ExecuteNonQuery();
+                    MessageBox.Show(rowsAffected > 0 ? "Adatok sikeresen módosítva." : "Nem sikerült módosítani az adatokat.");
+                }
+                else
+                {
+                    MessageBox.Show("Nincs módosítható adat.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiba történt az adatok módosítása során: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+                command.Parameters.Clear(); // Clear parameters after execution
+            }
         }
 
-        if (!string.IsNullOrWhiteSpace(szuldatum.Text))
-        {
-            query += "dszul = @szuldatum, ";
-            command.Parameters.AddWithValue("@szuldatum", szuldatum.Text);
-        }
-
-        if (!string.IsNullOrWhiteSpace(munkaneve.Text))
-        {
-            query += "dmunk = @munkaneve, ";
-            command.Parameters.AddWithValue("@munkaneve", munkaneve.Text);
-        }
-
-        if (!string.IsNullOrWhiteSpace(telefonszama.Text))
-        {
-            query += "dtel = @telefonszama, ";
-            command.Parameters.AddWithValue("@telefonszama", telefonszama.Text);
-        }
-
-        query = query.TrimEnd(',', ' ') + " WHERE dnev = @teljesneve_update";
-        command.Parameters.AddWithValue("@teljesneve_update", lista.SelectedItem.ToString());
-
-        command.CommandText = query;
-
-        int rowsAffected = command.ExecuteNonQuery();
-        if (rowsAffected > 0)
-        {
-            MessageBox.Show("Adatok sikeresen módosítva.");
-        }
-        else
-        {
-            MessageBox.Show("Nem sikerült módosítani az adatokat.");
-        }
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show("Hiba történt az adatok módosítása során: " + ex.Message);
-    }
-    finally
-    {
-        connection.Close();
-    }
-}
-
-🔵hogyha szeretnéd ellenőrízetni, hogy mindegyik mezőbe helyesek-e a formátumok:
         private bool ValidateInputs()
         {
-            if (!string.IsNullOrWhiteSpace(szuldatum.Text) && !DateTime.TryParseExact(szuldatum.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
+            if (!string.IsNullOrWhiteSpace(szuldatum.Text) && !DateTime.TryParseExact(szuldatum.Text, "yyyy.MM.dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
             {
-                MessageBox.Show("A születési dátum formátuma helytelen (év-hó-nap, pl. 2024-05-20).");
+                MessageBox.Show("A születési dátum formátuma helytelen (yyyy.MM.dd).");
                 return false;
             }
 
@@ -132,12 +166,11 @@ private void Button_Click_1(object sender, RoutedEventArgs e)
             return true;
         }
 
-🔵🔵🔵🔵🔵a módosításban is meglehet azt csinálni hogy ahova szám kell oda csak szám és ahova betű oda csak betű mehet
-ellenőrző kódrészt megcsinánlni🔵🔵🔵🔵🔵🔵
-
-🔵illetve csak simán ez legyen itt:
         private void lista_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-
+            // Itt lehetne kezelni a kijelölt sor változását
         }
+    }
+}
+
 🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
