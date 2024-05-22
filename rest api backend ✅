@@ -1,0 +1,53 @@
+<?php
+header('Content-Type: application/json; charset=utf-8');
+header('Acces-Control-Allow-Origin: *');
+header('Acces-Control-Allow-Headers: *');
+
+$data = explode ('/',$_SERVER['QUERY_STRING']); //index.php?valami
+
+$conn = new mysqli("localhost", "root", "", "tagdij");
+if ($conn->errno) {
+    echo 'Adatbázis hiba';
+    die(); 
+}
+
+switch ($data[0]) {
+    case "ugyfel":
+        switch ($_SERVER['REQUEST_METHOD']){ //(filter_input)
+            case "GET": //kiiratja az ugyfeleket
+                $res = $conn->query("SELECT * FROM `ugyfel`");
+                if ($conn->errno){
+                    http_response_code(401);
+                    echo array('hiba'=>"sikertelen kérés");
+                } else {
+                    http_response_code(201);
+                    echo json_encode($res->fetch_all(MYSQLI_ASSOC));
+                }
+
+            break;
+
+            case "POST": //index.php?ugyfel adatok előtti szó mi legyen!
+                $nev = filter_input(INPUT_POST, 'nev');
+                $szulev = filter_input(INPUT_POST, 'szulev');
+                $irsz = filter_input(INPUT_POST, 'irsz');
+                $orsz = filter_input(INPUT_POST, 'orsz');
+
+                $stm = $conn-> prepare("INSERT INTO `ugyfel` (`azon`, `nev`, `szulev`, `irszam`, `orsz`,) VALUE (NULL, $nev, $szulev, $irsz, $orsz)");
+                if ($stm->execute()){
+                    http_response_code(201);
+                    echo json_encode(array('id'=>$conn->insert_id));
+                } else {
+                    http_response_code(401);
+                    echo json_encode(array('hiba'=>"sikertelen adatbevitel"));
+                }
+                break;
+        }
+        break;
+    
+    default:
+        http_response_code(401);
+        echo json_encode (array("hiba"=>"ismeretlen kérés"));
+        break;
+}
+
+//echo json_encode($data);
