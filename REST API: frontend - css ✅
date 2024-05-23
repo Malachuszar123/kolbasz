@@ -1,0 +1,207 @@
+/* Alapstílusok */
+body {
+    background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+header {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    animation: fadeInDown 1s;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    color: #ff6347;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.container {
+    padding: 20px;
+}
+
+form {
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form input, form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+form button {
+    background: #ff6347;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+form button:hover {
+    background: #e55337;
+}
+
+#futarok {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card {
+    background-color: #fff;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: calc(33.333% - 40px);
+    min-width: 250px;
+}
+
+.card:hover {
+    transform: translateY(-10px) rotate(-1deg);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+    padding: 20px;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.card-title::after {
+    content: '';
+    width: 50px;
+    height: 3px;
+    background: #ff6347;
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 3px;
+}
+
+.card-text {
+    color: #777;
+}
+
+.card-text::first-letter {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Média lekérdezések */
+@media (max-width: 1200px) {
+    .card {
+        width: calc(50% - 40px);
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: calc(100% - 40px);
+    }
+
+    header h1 {
+        font-size: 2em;
+    }
+}
+
+/* Speciális animációk */
+.card:hover .card-title {
+    animation: bounce 0.3s;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Gomb stílusok */
+button {
+    display: inline-block;
+    background-color: #ff6347;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #e55337;
+}
+
+button:active {
+    background-color: #d44327;
+}
+
+/* Hozzáadott részletek */
+form input::placeholder {
+    color: #aaa;
+}
+
+form input:focus {
+    border-color: #ff6347;
+    box-shadow: 0 0 5px rgba(255, 99, 71, 0.5);
+}
+
+form input:focus::placeholder {
+    color: #ff6347;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9em;
+}
