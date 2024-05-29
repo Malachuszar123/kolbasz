@@ -3,87 +3,116 @@
 🟣ott van már az elkészített és betöltött adatok a DataGridbe. (hogyan kell? itt van: 🟡🟡🟡3. TÁBLÁZAT KIIRATÁS DATAGRIDBE🟡🟡🟡)
 
 🟣FONTOS HOGY NEVEZD EL MEGFELELŐEN A GOMBOKAT MEG MINDEN ISTEN NYILÁT.
-GRID: mik ezek? Uj elem hozzáadása; pld: leves neve(tbox): almaleves(tblock); ezek sokasága de magadnak is megtudod csinálni!!!
- <Button x:Name="hozzaad" Content="Hozzáad" HorizontalAlignment="Left" Margin="570,295,0,0" VerticalAlignment="Top" FontSize="20" Click="Button_Click_1"/>
- <TextBox x:Name="nev" HorizontalAlignment="Left" Margin="541,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
- <TextBox x:Name="kaloria" HorizontalAlignment="Left" Margin="541,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
- <TextBox x:Name="fohozzavalo" HorizontalAlignment="Left" Margin="541,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
- <TextBox x:Name="keszitette" HorizontalAlignment="Left" Margin="541,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
- <TextBox x:Name="osszlevesek" HorizontalAlignment="Left" Margin="541,228,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
- <TextBlock HorizontalAlignment="Left" Margin="541,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Adj saját adatot"/></TextBlock>
- <TextBlock HorizontalAlignment="Left" Margin="405,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Név:"/></TextBlock>
- <TextBlock HorizontalAlignment="Left" Margin="405,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Kalória:"/></TextBlock>
- <TextBlock HorizontalAlignment="Left" Margin="405,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Fő hozzávaló:"/></TextBlock>
- <TextBlock HorizontalAlignment="Left" Margin="405,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Készítette:"/></TextBlock>
- <TextBlock HorizontalAlignment="Left" Margin="400,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Össz levesek:"/></TextBlock>
+ <Grid>
+     <Grid.Background>
+         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+             <GradientStop Color="White"/>
+             <GradientStop Color="#FFFF7272" Offset="1"/>
+         </LinearGradientBrush>
+     </Grid.Background>
+     <TextBox x:Name="nevbox" HorizontalAlignment="Left" Margin="177,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20" Background="White" Foreground="Black"/>
+     <TextBox x:Name="nemebox" HorizontalAlignment="Left" Margin="177,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+     <TextBox x:Name="reszlegbox" HorizontalAlignment="Left" Margin="177,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+     <TextBox x:Name="belepesevbox" HorizontalAlignment="Left" Margin="177,236,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+     <TextBox x:Name="berbox" HorizontalAlignment="Left" Margin="177,270,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" FontSize="20"/>
+     <TextBlock HorizontalAlignment="Center" Margin="0,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36" Width="322" TextAlignment="Center"><Run Language="hu-hu" Text="Új dolgozó felvétele"/></TextBlock>
+     <TextBlock HorizontalAlignment="Left" Margin="41,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Név:"/></TextBlock>
+     <TextBlock HorizontalAlignment="Left" Margin="41,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Neme: férfi/nő"/></TextBlock>
+     <TextBlock HorizontalAlignment="Left" Margin="41,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Részleg:"/></TextBlock>
+     <TextBlock HorizontalAlignment="Left" Margin="41,236,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Belépés éve:"/></TextBlock>
+     <TextBlock HorizontalAlignment="Left" Margin="41,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="hu-hu" Text="Bér:"/></TextBlock>
+     <Button HorizontalAlignment="Center" Margin="0,338,0,0" VerticalAlignment="Top" FontSize="22" Language="hu-hu" Content="Hozzáad" Click="Button_Click"/>
+ </Grid>
 
-🟣1x sql hivatkozás
-public partial class Regi : Window
+🟣Teljes kód:
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using MySql.Data.MySqlClient;
+
+namespace vizsgaraWPF
 {
-    public MySqlConnection connection; //ez az új
-    public Neve()
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
-        InitializeDbConn();  //ez az új
-    }
+        public MySqlConnection connection;
+        public MainWindow()
+        {
+            InitializeComponent();
+            InitializeDbConn();
+        }
 
-    private void InitializeDbConn()  //ez az új
-    {  //ez az új
-        string connectionString = "Server=localhost; Database=vannevesjelszo; Uid=root; Pwd=;";  //ez az új
-        connection = new MySqlConnection(connectionString);  //ez az új
-    }  //ez az új
+        private void InitializeDbConn()
+        {
+            string connectionString = "Server=localhost; Database=dolgozok; Uid=root; Pwd=;";
+            connection = new MySqlConnection(connectionString);
+        }
 
-🟣A hozzáadó gombra kattinta:
-private void Button_Click_1(object sender, RoutedEventArgs e)
-{
-    string nevValue = nev.Text;
-    int kaloriaValue = int.Parse(kaloria.Text); //aminek el lett nevezve a textbox ugy nevezd itt el, számok: int és Parse, betűk string és semmi!!!
-    string fohozzavaloValue = fohozzavalo.Text;
-    string keszitetteValue = keszitette.Text;
-    int osszlevesekValue = int.Parse(osszlevesek.Text);
-//dátum esetén: DateTime szuldatumValue = DateTime.Parse(datum.Text);
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            // Értékek beolvasása és típuskonverziók
+            string nevValue = nevbox.Text;
+            string nemeValue = nemebox.Text;
+            string reszlegValue = reszlegbox.Text;
+            int belepesevValue, berValue;
 
-     // Ellenőrizzük, hogy minden mező ki van-e töltve
-     if (string.IsNullOrWhiteSpace(nev.Text) || string.IsNullOrWhiteSpace(kaloria.Text) ||
-         string.IsNullOrWhiteSpace(fohozzavalo.Text) || string.IsNullOrWhiteSpace(keszitette.Text) ||
-         string.IsNullOrWhiteSpace(osszlevesek.Text))
-     {
-         MessageBox.Show("Minden mezőt ki kell tölteni.");
-         return;
-     }
+            // Ellenőrizzük, hogy minden mező ki van-e töltve
+            if (string.IsNullOrWhiteSpace(nevbox.Text) || string.IsNullOrWhiteSpace(nemebox.Text) ||
+                string.IsNullOrWhiteSpace(reszlegbox.Text) || string.IsNullOrWhiteSpace(belepesevbox.Text) ||
+                string.IsNullOrWhiteSpace(berbox.Text))
+            {
+                MessageBox.Show("Minden mezőt ki kell tölteni.");
+                return;
+            }
 
-    string connStr = "server=localhost;user=root;database=vannevesjelszo;password="; //ha már 1x csatlakoztál akkor már nem kell
-    MySqlConnection conn = new MySqlConnection(connStr); // ez sem
+            if (!int.TryParse(belepesevbox.Text, out belepesevValue) || !int.TryParse(berbox.Text, out berValue))
+            {
+                MessageBox.Show("A belépés éve és a bér mezőnek számnak kell lennie.");
+                return;
+            }
 
-    try
-    {
-        conn.Open();
+            try
+            {
+                connection.Open();
 
-        // SQL parancs előkészítése az adatok beszúrásához //itt ez a hosszu ide az kell ami táblázatban az első sor nevei: pld fohozzavalo és @-cal elmondjuk melyik aza textbox amelyikbe írom a szöveget. tehát @fohozzavalo
-        string sql = "INSERT INTO levesek (neve, kaloria, fohozzavalo, keszitette, osszlevesek) VALUES (@nev, @kaloria, @fohozzavalo, @keszitette, @osszlevesek)";
-        MySqlCommand cmd = new MySqlCommand(sql, conn);
+                // SQL parancs előkészítése az adatok beszúrásához //itt ez a hosszu ide az kell ami táblázatban az első sor nevei: pld fohozzavalo és @-cal elmondjuk melyik aza textbox amelyikbe írom a szöveget. tehát @fohozzavalo
+                string sql = "INSERT INTO dolgozok (nev, neme, reszleg, belepesev, ber) VALUES (@nevbox, @nemebox, @reszlegbox, @belepesevbox, @berbox)";
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
 
-        // Paraméterek hozzáadása a parancshoz
-        cmd.Parameters.AddWithValue("@nev", nevValue);
-        cmd.Parameters.AddWithValue("@kaloria", kaloriaValue);
-        cmd.Parameters.AddWithValue("@fohozzavalo", fohozzavaloValue);
-        cmd.Parameters.AddWithValue("@keszitette", keszitetteValue);
-        cmd.Parameters.AddWithValue("@osszlevesek", osszlevesekValue);
+                // Paraméterek hozzáadása a parancshoz
+                cmd.Parameters.AddWithValue("@nevbox", nevValue);
+                cmd.Parameters.AddWithValue("@nemebox", nemeValue);
+                cmd.Parameters.AddWithValue("@reszlegbox", reszlegValue);
+                cmd.Parameters.AddWithValue("@belepesevbox", belepesevValue);
+                cmd.Parameters.AddWithValue("@berbox", berValue);
 
-        // Parancs végrehajtása
-        cmd.ExecuteNonQuery();
-        MessageBox.Show("Adat(ok) sikeresen hozzáadva");
-
-        // Adatok újratöltése a DataGrid-be
-        LoadData();
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show("Hiba történt az adatok mentése közben: " + ex.Message);
-    }
-    finally
-    {
-        conn.Close();
+                // Parancs végrehajtása
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Adat(ok) sikeresen hozzáadva");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiba történt az adatok mentése közben: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }
 
