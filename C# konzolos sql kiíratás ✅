@@ -4,48 +4,59 @@
 NuGets mysql hozzáadása
 
 🐈‍⬛2.
+using System;
 using MySql.Data.MySqlClient;
 
-namespace probamegintetcsekeee
+namespace vizsgara
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            string connString = "server=localhost; user=root; database=pizza; password=;";
-            MySqlConnection databaseconn = new MySqlConnection(connString);
+            string connString = "server=localhost; user=root; database=dolgozok; password=;";
 
-            try
+            using (MySqlConnection databaseconn = new MySqlConnection(connString))
             {
-                databaseconn.Open();
-
-                // 1. feladat: Hány db pizza van összesen?
-                MySqlCommand lekerdezes1 = new MySqlCommand("SELECT COUNT(pnev) FROM pizza", databaseconn);
-                Console.WriteLine("1. feladat: Hány db pizza van összesen?");
-                Console.WriteLine($"{lekerdezes1.ExecuteScalar()}");
-
-                // 2. feladat: Pizzák neve és árai?
-                MySqlCommand lekerdezes2 = new MySqlCommand("SELECT pnev, par FROM pizza", databaseconn);
-                Console.WriteLine("\n2. feladat: Pizzák neve és árai?");
-                using (var olvaso = lekerdezes2.ExecuteReader())
+                try
                 {
-                    while (olvaso.Read())
+                    databaseconn.Open();
+
+                    // 1. feladat
+                    MySqlCommand dolgozokSzama = new MySqlCommand("SELECT COUNT(dolgozok.nev) AS osszesdolgozo FROM dolgozok", databaseconn);
+                    Console.WriteLine("1. feladat: Dolgozók száma összesen?");
+                    Console.WriteLine($"{dolgozokSzama.ExecuteScalar()}");
+
+                    // 2. feladat
+                    MySqlCommand magaskeresetuNev = new MySqlCommand("SELECT dolgozok.nev FROM dolgozok ORDER BY dolgozok.ber DESC LIMIT 1;", databaseconn);
+                    Console.WriteLine("\n2. feladat: Legmagasabb keresetű dolgozó neve?");
+                    Console.WriteLine($"{magaskeresetuNev.ExecuteScalar()}");
+
+                    // 3. feladat
+                    MySqlCommand reszlegekDolgozoi = new MySqlCommand("SELECT dolgozok.reszleg, COUNT(dolgozok.nev) AS fo FROM dolgozok GROUP BY dolgozok.reszleg", databaseconn);
+                    Console.WriteLine("\n3. feladat: Hányan dolgoznak az egyes részlegeken?");
+                    using (var execut = reszlegekDolgozoi.ExecuteReader())
                     {
-                        Console.WriteLine($"{olvaso.GetString(0)}: {olvaso.GetInt32(1)} Ft");//getstring: szavak; getint32: számok oszlopai
+                        while (execut.Read())
+                        {
+                            Console.WriteLine($"{execut.GetString(0)}: {execut.GetInt32(1)} fő"); //1 oszlop de tobb sor, muszaj
+                        }
+                    }
+
+                    // 4. feladat
+                    MySqlCommand asztalosmuhelyDolgozok = new MySqlCommand("SELECT dolgozok.nev FROM dolgozok WHERE dolgozok.reszleg = 'asztalosműhely'", databaseconn);
+                    Console.WriteLine("\n4. feladat: Asztalosműhely-ben dolgozók nevei?");
+                    using (var execut = asztalosmuhelyDolgozok.ExecuteReader())
+                    {
+                        while (execut.Read())
+                        {
+                            Console.WriteLine($"{execut.GetString(0)}");
+                        }
                     }
                 }
-
-                // 3. feladat: Hány db pizzát rendelt Kuka 2023-ban?
-                MySqlCommand lekerdezes3 = new MySqlCommand(
-                    "SELECT COUNT(rendeles.idopont) FROM rendeles " +
-                    "INNER JOIN vevo ON rendeles.vazon = vevo.vazon " +
-                    "WHERE vevo.vnev = 'Kuka' AND rendeles.idopont BETWEEN '2023-01-01' AND '2023-12-31'", databaseconn);
-                Console.WriteLine("\n3. feladat: Hány db pizzát rendelt Kuka 2023-ban?");
-                Console.WriteLine($"{lekerdezes3.ExecuteScalar()}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Hiba történt: {ex.Message}");
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Hiba történt: {ex.Message}");
+                }
             }
 
             Console.ReadLine();
